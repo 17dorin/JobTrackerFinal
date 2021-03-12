@@ -10,7 +10,7 @@ namespace FinalProject.Models
 {
     public class JobDAL
     {
-        public string GetData(string country, int page)
+        public string GetData(string country, int page = 1)
         {
             string url = $"https://api.adzuna.com/v1/api/jobs/{country}/search/{page}?app_id=0e272246&app_key=b3f98fd2abc65138aec301152403b956";
 
