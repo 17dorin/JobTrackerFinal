@@ -12,7 +12,7 @@ namespace FinalProject.Models
     {
         public string GetData(string country, int page)
         {
-            string url = $"https://api.adzuna.com/v1/api/jobs/{country}/search/{page}";
+            string url = $"https://api.adzuna.com/v1/api/jobs/{country}/search/{page}?app_id=0e272246&app_key=b3f98fd2abc65138aec301152403b956";
 
 
             HttpWebRequest request = WebRequest.CreateHttp(url);
@@ -24,10 +24,10 @@ namespace FinalProject.Models
             return json;
         }
 
-        public List<Job> SearchJobs(string country, int page)
+        public Rootobject SearchJobs(string country, int page)
         {
             string json = GetData(country, page);
-            List<Job> j = JsonConvert.DeserializeObject<List<Job>>(json);
+            Rootobject j = JsonConvert.DeserializeObject<Rootobject>(json);
             return j;
 
         }
