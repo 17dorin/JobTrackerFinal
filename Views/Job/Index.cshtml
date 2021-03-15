@@ -1,0 +1,27 @@
+﻿@model List<Job>
+
+<h3>Jobs in your Job Tracker:</h3>
+
+@if (Model.Count == 0)
+{
+    <p>You don't currently have any jobs in your tracker.</p>
+}
+else
+{
+    @foreach(Job j in Model)
+    {
+        <h2>Company name: @j.Company</h2>
+        <p>Position: @j.Position<br />
+        Contact: @j.Contact<br />
+        Method: @j.Method<br />
+        Date of application: @j.DateOfApplication<br />
+        Link: @j.Link<br />
+        Next follow up: @j.FollowUp<br />
+        Company site: @j.CompanySite<br />
+        Responded: @j.Responded<br />
+        Notes: @j.Notes</p>
+
+        <a asp-action="Edit" asp-controller="Job" asp-route-id="@j.Id"><button>Edit Job</button></a>
+        <a asp-action="Delete" asp-controller="Job" asp-route-id="@j.Id"><button>Delete Job</button></a>
+    }
+}
