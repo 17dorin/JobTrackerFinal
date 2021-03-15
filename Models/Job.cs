@@ -20,6 +20,23 @@ namespace FinalProject.Models
         public string Notes { get; set; }
         public string UserId { get; set; }
 
+        public static Job ToJob(Result raw)
+        {
+            Job j = new Job();
+            j.Company = raw.company.display_name;
+            j.Position = raw.title;
+            j.Contact = "None";
+            j.Method = "Through Job Ad";
+            j.DateOfApplication = DateTime.Now;
+            j.Link = raw.redirect_url;
+            j.FollowUp = null;
+            j.CompanySite = null;
+            j.Responded = false;
+            j.Notes = "None";
+
+            return j;
+
+        }
         public virtual AspNetUser User { get; set; }
     }
 
@@ -68,5 +85,7 @@ namespace FinalProject.Models
         public string display_name { get; set; }
         public string __CLASS__ { get; set; }
     }
+
+
 
 }
