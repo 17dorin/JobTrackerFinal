@@ -1,0 +1,17 @@
+﻿@model Job
+@if(@TempData["action"].ToString() == "add")
+                {
+                    <h2>Job successfully added.</h2>
+                }
+    else if(@TempData["action"].ToString() == "delete")
+                {
+                    <h2>Job successfully deleted.</h2>
+                }
+    else if(@TempData["action"].ToString() == "update")
+                {
+                    <h2>Job successfully updated.</h2>
+                }
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
