@@ -18,8 +18,7 @@ namespace FinalProject.Controllers
 
         public IActionResult Search(string country, int page)
         {
-            string countryLower = country.Trim().ToLower();
-            Rootobject r = jd.SearchJobs(countryLower, page);
+            Rootobject r = jd.SearchJobs(country.ToLower(), page);
             return View(r.results.ToList());
         }
     }
