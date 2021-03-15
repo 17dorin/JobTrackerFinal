@@ -1,15 +1,13 @@
 ﻿@model List<Skill>
 <h4>Add your tech skills below:</h4>
-<form>
-    <select name="skills" id="skills" multiple>
-        @foreach (Skill s in Model)
-        {
-            @*<input type="checkbox" id="@s.Skill1" name="@s.Skill1" />
-            <label for="@s.Skill1">@s.Skill1</label>*@
+<form asp-controller="Users" asp-action="AddSkills">
 
-            <option value="@s.Skill1">@s.Skill1</option>
+         @foreach (Skill s in Model)
+         {
+            <input type="checkbox" id="@s.Skill1" name="skillId" value="@s.Id"/>
+            <label for="@s.Skill1">@s.Skill1</label>
+            <br/>
+         }
 
-        }
-    </select>
-
+    <input type="submit" />
 </form>
