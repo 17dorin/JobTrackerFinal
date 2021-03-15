@@ -7,9 +7,10 @@ using FinalProject.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
-{
+{ [Authorize]
     public class JobController : Controller
     {
         private JobDAL jd = new JobDAL();
@@ -20,7 +21,7 @@ namespace FinalProject.Controllers
             _context = context;
         }
 
-        // View CRUD action
+        // Index view displays a list of added jobs for the logged in user based on entity UserId
         public IActionResult Index()
         {
            return View(_context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
@@ -33,65 +34,64 @@ namespace FinalProject.Controllers
             return View(r.results.ToList());
         }
 
-        // Add CRUD action
-        public IActionResult Add(Job job)
-        {
-            job.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            _context.Jobs.Add(job);
-            _context.SaveChangesAsync();
-            return RedirectToAction("JobAdded", job);
-        }
         
-        public IActionResult Delete(int id)
+        public IActionResult Add()
         {
-            Job job = _context.Jobs.Find(id);
-            return View(job);
+            return View();
         }
 
-        // Delete CRUD action
-        public IActionResult Delete(Job job)
+        // Add/CREATE CRUD
+        [HttpPost]
+        public async Task<IActionResult> Add([Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
         {
-            if (job == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                job.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                _context.Add(job);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-            _context.Jobs.Remove(job);
-            _context.SaveChanges();
-            return RedirectToAction("DeleteSuccess", job);
-        }
-
-        public IActionResult DeleteSuccess(Job job)
-        {
+            TempData["action"] = "add";
             return View(job);
         }
 
-        //// Edit CRUD action
-        //public IActionResult Edit(int id)
-        //{
-        //    Job job = _context.Jobs.Find(id);
-        //    return View(job);
-        //}
-
-        //[HttpPost]
-        //public IActionResult Edit(Job job)
-        //{
-        //    if (job == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    _context.Jobs.Update(job);
-        //    _context.SaveChanges();
-        //    return View(job);
-        //}
-
-        public async Task<IActionResult> Edit(int? id)
+        // Delete CRUD
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
+            var job = await _context.Jobs
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (job == null)
+            {
+                return NotFound();
+            }
+
+            return View(job);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
             var job = await _context.Jobs.FindAsync(id);
+            _context.Jobs.Remove(job);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Success", job);
+        }
+
+        // Edit CRUD
+        public async Task<IActionResult> Edit(int? Id)
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var job = await _context.Jobs.FindAsync(Id);
             if (job == null)
             {
                 return NotFound();

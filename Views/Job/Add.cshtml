@@ -1,34 +1,58 @@
-﻿<h4>Add a job to your tracker:</h4>
+﻿@model Job
 
-<form asp-action="AddJob" asp-controller="Job">
-    <label for="company">Company name:</label>
-    <input type="text" id="company" />
-    <br />
-    <label for="position">Position applied for:</label>
-    <input type="text" id="position" />
-    <br />
-    <label for="contact">Contact:</label>
-    <input type="text" id="contact" />
-    <br />
-    <label for="method">Application method:</label>
-    <input type="text" id="method" />
-    <br />
-    <label for="dateofapplication">Date of application:</label>
-    <input type="date" id="dateofapplication" />
-    <br />
-    <label for="link">Link to job posting:</label>
-    <input type="text" id="link" />
-    <br />
-    <label for="followup">Company name:</label>
-    <input type="text" id="followup" />
-    <br />
-    <label for="companysite">Company website:</label>
-    <input type="text" id="companysite" />
-    <br />
-    <label for="responded">Responded?</label>
-    <input type="text" id="responded" />
-    <br />
-    <label for="notes">Company name:</label>
-    <input type="text" id="notes" />
-    <br />
-</form>
+<h4>Add a job to your tracker:</h4>
+
+<p>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Add">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Company" />
+                <div class="form-group">
+                    <label asp-for="Company" class="control-label"></label>
+                    <input asp-for="Company" class="form-control" />
+                    <span asp-validation-for="Company" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Position" class="control-label"></label>
+                    <input asp-for="Position" class="form-control" />
+                    <span asp-validation-for="Position" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Contact" class="control-label"></label>
+                    <input asp-for="Contact" class="form-control" />
+                    <span asp-validation-for="Contact" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfApplication" class="control-label"></label>
+                    <input asp-for="DateOfApplication" class="form-control" />
+                    <span asp-validation-for="DateOfApplication" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FollowUp" class="control-label"></label>
+                    <input asp-for="FollowUp" class="form-control" />
+                    <span asp-validation-for="FollowUp" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompanySite" class="control-label"></label>
+                    <input asp-for="CompanySite" class="form-control" />
+                    <span asp-validation-for="CompanySite" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Responded" class="control-label"></label>
+                    <input asp-for="Responded" class="form-control" />
+                    <span asp-validation-for="Responded" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Notes" class="control-label"></label>
+                    <input asp-for="Notes" class="form-control" />
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+                @*@Html.HiddenFor(x => x.UserId)*@
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</p>
