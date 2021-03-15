@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FinalProject.Controllers
-{ [Authorize]
+{
     public class JobController : Controller
     {
         private JobDAL jd = new JobDAL();
@@ -25,7 +25,7 @@ namespace FinalProject.Controllers
         // READ CRUD
         public IActionResult Index()
         {
-           return View(_context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
+            return View(_context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
         }
 
         public IActionResult Search(string country, int page)
