@@ -10,9 +10,9 @@ namespace FinalProject.Models
 {
     public class JobDAL
     {
-        public string GetData(string country, int page = 1)
+        public string GetData(string country, int page = 1, string what = null, string where = null)
         {
-            string url = $"https://api.adzuna.com/v1/api/jobs/{country}/search/1?app_id=0e272246&app_key=b3f98fd2abc65138aec301152403b956&content-type=application/json&";
+            string url = $"https://api.adzuna.com/v1/api/jobs/{country}/search/1?what={what}&where={where}&app_id=0e272246&app_key=b3f98fd2abc65138aec301152403b956&content-type=application/json&";
 
 
             HttpWebRequest request = WebRequest.CreateHttp(url);
@@ -24,9 +24,9 @@ namespace FinalProject.Models
             return json;
         }
 
-        public Rootobject SearchJobs(string country, int page)
+        public Rootobject SearchJobs(string country, int page, string what, string where)
         {
-            string json = GetData(country, page);
+            string json = GetData(country, page, what, where);
             Rootobject j = JsonConvert.DeserializeObject<Rootobject>(json);
             return j;
 

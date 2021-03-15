@@ -29,9 +29,9 @@ namespace FinalProject.Controllers
 
         public IActionResult AddSkills(List<int> skillId)
         {
-            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
-            var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
-            var userId = claim.Value;
+            //var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            //var claim = claimsIdentity.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             if (skillId.Count != 0)
             {

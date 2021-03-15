@@ -16,9 +16,9 @@ namespace FinalProject.Controllers
             return View();
         }
 
-        public IActionResult Search(string country, int page)
+        public IActionResult Search(string country, int page, string what, string where)
         {
-            Rootobject r = jd.SearchJobs(country.ToLower(), page);
+            Rootobject r = jd.SearchJobs(country.ToLower(), page, what, where);
             return View(r.results.ToList());
         }
     }
