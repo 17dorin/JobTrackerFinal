@@ -22,7 +22,7 @@ else
         UID: @j.UserId<br />
         Notes: @j.Notes</p>
 
-        <a asp-action="Edit" asp-controller="Job" asp-route-id="@j.Id"><button>Edit Job</button></a>
+        <a asp-action="Update" asp-controller="Job" asp-route-id="@j.Id"><button>Edit Job</button></a>
         <a asp-action="Delete" asp-controller="Job" asp-route-id="@j.Id"><button>Delete Job</button></a>
     }
 }

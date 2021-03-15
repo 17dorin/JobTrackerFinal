@@ -22,6 +22,7 @@ namespace FinalProject.Controllers
         }
 
         // Index view displays a list of added jobs for the logged in user based on entity UserId
+        // READ CRUD
         public IActionResult Index()
         {
            return View(_context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
@@ -34,13 +35,12 @@ namespace FinalProject.Controllers
             return View(r.results.ToList());
         }
 
-        
         public IActionResult Add()
         {
             return View();
         }
 
-        // Add/CREATE CRUD
+        // Create/Add CRUD
         [HttpPost]
         public async Task<IActionResult> Add([Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
         {
@@ -49,13 +49,14 @@ namespace FinalProject.Controllers
                 job.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
                 _context.Add(job);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["action"] = "add";
+                return RedirectToAction("Success", job);
             }
-            TempData["action"] = "add";
+            //return RedirectToAction("Failure", job);
             return View(job);
         }
 
-        // Delete CRUD
+        // Remove/DELETE CRUD
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -80,11 +81,12 @@ namespace FinalProject.Controllers
             var job = await _context.Jobs.FindAsync(id);
             _context.Jobs.Remove(job);
             await _context.SaveChangesAsync();
+            TempData["action"] = "delete";
             return RedirectToAction("Success", job);
         }
 
-        // Edit CRUD
-        public async Task<IActionResult> Edit(int? Id)
+        // Edit/Update CRUD
+        public async Task<IActionResult> Update(int? Id)
         {
             if (Id == null)
             {
@@ -100,8 +102,7 @@ namespace FinalProject.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
+        public async Task<IActionResult> Update(int id, [Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
         {
             if (id != job.Id)
             {
@@ -112,7 +113,7 @@ namespace FinalProject.Controllers
             {
                 try
                 {
-                    _context.Update(job);
+                    _context.Jobs.Update(job);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -126,8 +127,14 @@ namespace FinalProject.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                TempData["action"] = "update";
+                return RedirectToAction("Success", job);
             }
+            return View(job);
+        }
+
+        public IActionResult Success(Job job)
+        {
             return View(job);
         }
 
