@@ -1,6 +1,6 @@
 ﻿@model Job
 
-<h2>Edit job details:</h2>
+<h2>Editing Job ID# @Model.Id</h2>
 
 <p>
 <div class="row">
@@ -61,7 +61,7 @@
             @Html.HiddenFor(x => x.UserId)
             @Html.HiddenFor(x => x.User)
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary btn-" />
             </div>
         </form>
     </div>
