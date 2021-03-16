@@ -10,10 +10,10 @@
 }
 <br />
 @{
-    string country = TempData["country"].ToString();
-    int page = int.Parse(TempData["page"].ToString());
-    string what = TempData["what"].ToString();
-    string where = TempData["where"].ToString();
+    string country = TempData.Peek("country").ToString();
+    int page = int.Parse(TempData.Peek("page").ToString());
+    string what = TempData.Peek("what").ToString();
+    string where = TempData.Peek("where").ToString();
 
     if (page != 1)
     {
