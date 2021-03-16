@@ -14,5 +14,13 @@ namespace FinalProject.Helpers
 
             return cleaned;
         }
+
+        public static bool CompareJobUrl(string dbUrl, string resultUrl)
+        {
+            string parsedDb = dbUrl.Substring(0, dbUrl.IndexOf('?') + 1);
+            string parsedResult = resultUrl.Substring(0, dbUrl.IndexOf('?') + 1);
+
+            return parsedDb.Equals(parsedResult);
+        }
     }
 }
