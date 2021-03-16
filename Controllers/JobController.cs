@@ -30,7 +30,7 @@ namespace FinalProject.Controllers
             return View(_context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
         }
 
-        public IActionResult Search(string country, int page, string what, string where)
+        public IActionResult Search(string country, string what, string where, int page = 1)
         {
             Rootobject r = jd.SearchJobs(country.ToLower(), page, what, where);
             List<Result> jobResults = r.results.ToList();
