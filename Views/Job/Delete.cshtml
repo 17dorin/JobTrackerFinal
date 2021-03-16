@@ -1,0 +1,24 @@
+﻿@model Job
+
+<h2>Are you sure you'd like to delete job ID: @Model.Id?</h2>
+
+<p>
+    Company name: @Model.Company <br />
+    Position: @Model.Position <br />
+    Contact: @Model.Contact <br />
+    Method: @Model.Method <br />
+    Date of application: @Model.DateOfApplication <br />
+    Link: @Model.Link <br />
+    Next follow up: @Model.FollowUp <br />
+    Company site: @Model.CompanySite <br />
+    Responded: @Model.Responded <br />
+    Notes: @Model.Notes <br /><br />
+</p>
+
+<p>
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</p>
