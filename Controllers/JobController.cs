@@ -8,6 +8,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using FinalProject.Helpers;
 
 namespace FinalProject.Controllers
 {
@@ -34,13 +35,29 @@ namespace FinalProject.Controllers
             Rootobject r = jd.SearchJobs(country.ToLower(), page, what, where);
             List<Result> jobResults = r.results.ToList();
 
-            foreach(Result result in jobResults)
+            if(User.Identity.IsAuthenticated)
             {
-                if(_context.Jobs.Contains(Job.ToJob(result)))
+                List<string> dbJobLinks = _context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).Select(x => x.Link).ToList();
+                dbJobLinks = dbJobLinks.Where(x => x != null).ToList();
+
+                List<Result> duplicates = new List<Result>();
+
+                foreach (Result result in jobResults)
                 {
-                    jobResults.Remove(result);
+                    if (dbJobLinks.Any(x => TextHelper.CompareJobUrl(x, result.redirect_url)))
+                    {
+                        duplicates.Add(result);
+                        
+                    }
+                }
+
+                foreach (Result rd in duplicates)
+                {
+                    jobResults.Remove(rd);
                 }
             }
+
+
 
             TempData["country"] = country;
             TempData["page"] = page;
@@ -68,13 +85,32 @@ namespace FinalProject.Controllers
             _context.Jobs.Add(saved);
             _context.SaveChanges();
 
-            foreach (Result result in jobResults)
+            if (User.Identity.IsAuthenticated)
             {
-                if (_context.Jobs.Contains(Job.ToJob(result)))
+                List<string> dbJobLinks = _context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).Select(x => x.Link).ToList();
+                dbJobLinks = dbJobLinks.Where(x => x != null).ToList();
+
+                List<Result> duplicates = new List<Result>();
+
+                foreach (Result result in jobResults)
                 {
-                    jobResults.Remove(result);
+                    if (dbJobLinks.Any(x => TextHelper.CompareJobUrl(x, result.redirect_url)))
+                    {
+                        duplicates.Add(result);
+
+                    }
+                }
+
+                foreach (Result rd in duplicates)
+                {
+                    jobResults.Remove(rd);
                 }
             }
+
+            TempData["country"] = country;
+            TempData["page"] = page;
+            TempData["what"] = what;
+            TempData["where"] = where;
 
             return View("Search", jobResults);
         }
