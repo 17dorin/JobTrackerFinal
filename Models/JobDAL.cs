@@ -12,7 +12,7 @@ namespace FinalProject.Models
     {
         public string GetData(string country, int page = 1, string what = null, string where = null)
         {
-            string url = $"https://api.adzuna.com/v1/api/jobs/{country}/search/{page}?what={what}&where={where}&app_id=0e272246&app_key=b3f98fd2abc65138aec301152403b956&content-type=application/json&";
+            string url = $"https://api.adzuna.com/v1/api/jobs/{country}/search/{page}?what_or={what}&where={where}&app_id=0e272246&app_key=b3f98fd2abc65138aec301152403b956&content-type=application/json&";
 
 
             HttpWebRequest request = WebRequest.CreateHttp(url);

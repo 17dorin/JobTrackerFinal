@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using FinalProject.Helpers;
+using System.Text;
+using System.Net;
 
 namespace FinalProject.Controllers
 {
@@ -16,6 +18,7 @@ namespace FinalProject.Controllers
     {
         private JobDAL jd = new JobDAL();
         private readonly FinalProjectContext _context;
+        private Encoding utf8 = Encoding.UTF8;
 
         public JobController(FinalProjectContext context)
         {
@@ -32,7 +35,8 @@ namespace FinalProject.Controllers
 
         public IActionResult Search(string country, string what, string where, int page = 1)
         {
-            Rootobject r = jd.SearchJobs(country.ToLower(), page, what, where);
+            string encodedWhat = WebUtility.UrlEncode(what);
+            Rootobject r = jd.SearchJobs(country.ToLower(), page, encodedWhat, where);
             List<Result> jobResults = r.results.ToList();
 
             if(User.Identity.IsAuthenticated)
@@ -68,6 +72,61 @@ namespace FinalProject.Controllers
         }
 
         [Authorize]
+        public IActionResult SearchRecommended()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult SearchRecommended(string country, string where, int page = 1)
+        {
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == userId).Select(x => x.SkillId).ToList();
+
+            List<Skill> skills = _context.Skills.ToList();
+
+            skills = skills.Where(x => userSkills.Contains(x.Id)).ToList();
+
+            string what = TextHelper.GetEncodedWhat(skills).Trim();
+            
+
+            Rootobject r = jd.SearchJobs(country.ToLower(), page, what, where);
+            List<Result> jobResults = r.results.ToList();
+
+            if (User.Identity.IsAuthenticated)
+            {
+                List<string> dbJobLinks = _context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).Select(x => x.Link).ToList();
+                dbJobLinks = dbJobLinks.Where(x => x != null).ToList();
+
+                List<Result> duplicates = new List<Result>();
+
+                foreach (Result result in jobResults)
+                {
+                    if (dbJobLinks.Any(x => TextHelper.CompareJobUrl(x, result.redirect_url)))
+                    {
+                        duplicates.Add(result);
+
+                    }
+                }
+
+                foreach (Result rd in duplicates)
+                {
+                    jobResults.Remove(rd);
+                }
+            }
+
+
+
+            TempData["country"] = country;
+            TempData["page"] = page;
+            TempData["what"] = what;
+            TempData["where"] = where;
+
+            return View("Search", jobResults);
+        }
+
+        [Authorize]
         public async Task<IActionResult> AddFromSearch(string id)
         {
             string country = TempData["country"].ToString();
@@ -75,7 +134,9 @@ namespace FinalProject.Controllers
             string what = TempData["what"].ToString();
             string where = TempData["where"].ToString();
 
-            Rootobject r = jd.SearchJobs(country, page, what, where);
+            string encodedWhat = WebUtility.UrlEncode(what);
+
+            Rootobject r = jd.SearchJobs(country, page, encodedWhat, where);
             List<Result> jobResults = r.results.ToList();
 
             List<Result> toSave = jobResults.Where(x => x.id.Contains(id)).ToList();
