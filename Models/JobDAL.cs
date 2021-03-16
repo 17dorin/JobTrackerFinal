@@ -21,6 +21,7 @@ namespace FinalProject.Models
             response = (HttpWebResponse)request.GetResponse();
             StreamReader rd = new StreamReader(response.GetResponseStream());
             string json = rd.ReadToEnd();
+
             return json;
         }
 

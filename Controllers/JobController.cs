@@ -23,6 +23,7 @@ namespace FinalProject.Controllers
 
         // Index view displays a list of added jobs for the logged in user based on entity UserId
         // READ CRUD
+        [Authorize]
         public IActionResult Index()
         {
             return View(_context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
@@ -31,8 +32,51 @@ namespace FinalProject.Controllers
         public IActionResult Search(string country, int page, string what, string where)
         {
             Rootobject r = jd.SearchJobs(country.ToLower(), page, what, where);
+            List<Result> jobResults = r.results.ToList();
 
-            return View(r.results.ToList());
+            foreach(Result result in jobResults)
+            {
+                if(_context.Jobs.Contains(Job.ToJob(result)))
+                {
+                    jobResults.Remove(result);
+                }
+            }
+
+            TempData["country"] = country;
+            TempData["page"] = page;
+            TempData["what"] = what;
+            TempData["where"] = where;
+
+            return View(jobResults);
+        }
+
+        [Authorize]
+        public async Task<IActionResult> AddFromSearch(string id)
+        {
+            string country = TempData["country"].ToString();
+            int page = int.Parse(TempData["page"].ToString());
+            string what = TempData["what"].ToString();
+            string where = TempData["where"].ToString();
+
+            Rootobject r = jd.SearchJobs(country, page, what, where);
+            List<Result> jobResults = r.results.ToList();
+
+            List<Result> toSave = jobResults.Where(x => x.id.Contains(id)).ToList();
+            Job saved = Job.ToJob(toSave[0]);
+            saved.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            _context.Jobs.Add(saved);
+            _context.SaveChanges();
+
+            foreach (Result result in jobResults)
+            {
+                if (_context.Jobs.Contains(Job.ToJob(result)))
+                {
+                    jobResults.Remove(result);
+                }
+            }
+
+            return View("Search", jobResults);
         }
 
         public IActionResult Add()
