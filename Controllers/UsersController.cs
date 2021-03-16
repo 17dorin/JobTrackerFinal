@@ -21,6 +21,11 @@ namespace FinalProject.Controllers
         {
             return View();
         }
+
+        public IActionResult UserProfile()
+        {
+            return View(_context.AspNetUsers.Where(x => x.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
+        }
         public IActionResult Skills()
         {
             List<Skill> skills = _context.Skills.ToList();
