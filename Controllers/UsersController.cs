@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
 {
-
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly FinalProjectContext _context;
@@ -22,14 +22,30 @@ namespace FinalProject.Controllers
             return View();
         }
 
-<<<<<<< HEAD
+
         public IActionResult UserProfile()
         {
             return View(_context.AspNetUsers.Where(x => x.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
         }
-=======
-        [Authorize]
->>>>>>> main
+
+
+        public IActionResult EditUserProfile()
+        {
+            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return View(a);
+        }
+        [HttpPost]
+        public IActionResult EditUserProfile(AspNetUser a)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.AspNetUsers.Update(a);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("UserProfile");
+        }
+
+
         public IActionResult Skills()
         {
             List<UserSkill> uSkill = _context.UserSkills
@@ -49,7 +65,7 @@ namespace FinalProject.Controllers
             return View(skills);
         }
 
-        [Authorize]
+
         public IActionResult AddSkills(List<int> skillId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

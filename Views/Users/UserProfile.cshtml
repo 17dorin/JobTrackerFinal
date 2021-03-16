@@ -2,13 +2,12 @@
 
 @foreach (AspNetUser a in Model)
 {
-    <p>@a.NormalizedUserName</p>
-    <p>@a.Location</p>
-    <p>@a.GitHub</p>
-    <p>@a.LinkedIn</p>
-    <p>@a.Biography</p>
-    <p>@a.Location</p>
-    <p>@a.Email</p>
-    <p>@a.PhoneNumber</p>
+    <p>Name: @a.NormalizedUserName</p>
+    <p>Location: @a.Location</p>
+    <p>Github: @a.GitHub</p>
+    <p>LinkedIn: @a.LinkedIn</p>
+    <p>Bio: @a.Biography</p>
+    <p>Email: @a.Email</p>
+    <p>Phone: @a.PhoneNumber</p>
 
 }
