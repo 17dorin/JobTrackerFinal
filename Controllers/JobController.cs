@@ -8,6 +8,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using FinalProject.Helpers;
 
 namespace FinalProject.Controllers
 {
@@ -36,7 +37,7 @@ namespace FinalProject.Controllers
 
             foreach(Result result in jobResults)
             {
-                if(_context.Jobs.Contains(Job.ToJob(result)))
+                if(_context.Jobs.Where(x => x.Link.Equals(result.redirect_url)).Count() > 0)
                 {
                     jobResults.Remove(result);
                 }

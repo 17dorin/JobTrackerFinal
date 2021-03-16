@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using FinalProject.Helpers;
 
 #nullable disable
 
@@ -23,8 +24,8 @@ namespace FinalProject.Models
         public static Job ToJob(Result raw)
         {
             Job j = new Job();
-            j.Company = raw.company.display_name;
-            j.Position = raw.title;
+            j.Company = TextHelper.RemoveHTML(raw.company.display_name);
+            j.Position = TextHelper.RemoveHTML(raw.title);
             j.Contact = "None";
             j.Method = "Through Job Ad";
             j.DateOfApplication = DateTime.Now;

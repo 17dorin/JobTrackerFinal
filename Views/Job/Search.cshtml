@@ -1,8 +1,9 @@
-﻿@model List<Result>
+﻿@using FinalProject.Helpers;
+@model List<Result>
 
 @foreach(Result r in Model)
 {
-    <p>Title: @r.title</p>
-    <p>Description: @r.description</p>
+    <p>Title: @TextHelper.RemoveHTML(r.title)</p>
+    <p>Description: @TextHelper.RemoveHTML(r.description)</p>
     <a asp-controller="Job" asp-action="AddFromSearch" asp-route-id="@r.id">Add to saved jobs</a>
 }
