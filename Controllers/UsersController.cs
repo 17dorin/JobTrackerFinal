@@ -45,6 +45,7 @@ namespace FinalProject.Controllers
         [Authorize]
         public IActionResult AddSkills(List<int> skillId)
         {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             if (skillId.Count != 0)
             {
