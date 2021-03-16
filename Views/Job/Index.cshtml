@@ -1,31 +1,94 @@
 ﻿@model List<Job>
 
-<h3>Welcome to the Job Tracker Index page!</h3>
+@{
+    ViewData["Title"] = "Job Tracker";
+}
+
+<h3>Welcome to the Job Tracker!</h3>
 
 @if (Model.Count == 0)
 {
-    <p>You don't have any jobs added to your tracker at this time. You can begin tracking jobs by adding them via the <a href="Job/Add">add jobs page.</a> After doing so you'll see them listed here along with any provided details.</p>
+    <div class="container">
+        You do not currently have any jobs added to your tracker. You may add jobs to your tracker by saving them while searching via the 
+        <a href="Home/Index">job search page</a>, or you may manually add them via the <a href="Job/Add">job add page</a>.<br /><br />
+        Once jobs are added to the tracker this page will list them along with their details.
+    </div>
 }
 else
 {
-    <p>You currently have @Model.Count jobs being tracked. Below you'll find each job along with their details:</p>
-
-    @foreach (Job j in Model)
-    {
-        <p>
-            Company name: @j.Company<br />
-            Position: @j.Position<br />
-            Contact: @j.Contact<br />
-            Method: @j.Method<br />
-            Date of application: @j.DateOfApplication<br />
-            Link: @j.Link<br />
-            Next follow up: @j.FollowUp<br />
-            Company site: @j.CompanySite<br />
-            Responded: @j.Responded<br />
-            UID: @j.UserId<br />
-            Notes: @j.Notes<br />
-        <a asp-action="Update" asp-controller="Job" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a>
-        <a asp-action="Delete" asp-controller="Job" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a><br />
-        </p>
-    }
+    <hr />
+<h3>Displaying all tracked jobs</h3>
+@foreach (Job j in Model)
+{
+    <div>
+        <hr />
+        <dl class="flex-xl-row">
+            <dt class="d-flex">
+                @Html.Label("Company", "Company name:")
+            </dt>
+            <dd class="d-flex">
+                @Html.DisplayFor(Job => j.Company)
+            </dd>
+            <dt class="d-flex">
+                @Html.DisplayNameFor(Job => j.Position)
+            </dt>
+            <dd class="d-flex">
+                @Html.DisplayFor(Job => j.Position)
+            </dd>
+            <dt class="d-flex">
+                @Html.DisplayNameFor(Job => j.Contact)
+            </dt>
+            <dd class="d-flex">
+                @Html.DisplayFor(Job => j.Contact)
+            </dd>
+            <dt class="d-flex">
+                @Html.Label("Method", "Application method:")
+            </dt>
+            <dd class="d-flex">
+                @Html.DisplayFor(Job => j.Method)
+            </dd>
+            <dt class="d-flex">
+                @Html.Label("DateOfApplication", "Date applied:")
+            </dt>
+            <dd class="d-flex">
+                @Html.DisplayFor(Job => j.DateOfApplication)
+            </dd>
+            <dt class="d-flex">
+                @Html.Label("Link", "Link to job posting:")
+            </dt>
+            <dd class="d-flex">
+                <a href="@Html.DisplayFor(Job => j.Link)">@Html.DisplayFor(Job => j.Link)</a>"
+            </dd>
+            <dt class="d-flex">
+                @Html.Label("FollowUp", "Next follow up date:")
+            </dt>
+            <dd class="d-flex">
+                @Html.DisplayFor(Job => j.FollowUp)
+            </dd>
+            <dt class="d-flex">
+                @Html.Label("CompanySite", "Company website:")
+            </dt>
+            <dd class="d-flex">
+                @Html.DisplayFor(Job => j.CompanySite)
+            </dd>
+            <dt class="d-flex">
+                @Html.Label("Responded", "Received response?")
+            </dt>
+            <dd class="d-flex">
+                @Html.DisplayFor(Job => j.Responded)
+            </dd>
+            <dt class="d-flex">
+                @Html.DisplayNameFor(Job => j.Notes)
+            </dt>
+            <dd class="d-flex">
+                @Html.DisplayFor(Job => j.Notes)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
+        <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a>
+    </div>
+    <hr />
+}
 }
