@@ -47,15 +47,15 @@ namespace FinalProject.Controllers
 
                 profileResults.Add(p);
             }
-            return RedirectToAction("SearchUsersResults", new { profileResults = profileResults });
-            /*, new {profiles=profileResults}*/
+            return View("SearchUsersResults", profileResults);
+
 
 
         }
-        public IActionResult SearchUsersResults(List<ProfileViewModel> profileResults)
-        {
-            return View(profileResults);
-        }
+        //public IActionResult SearchUsersResults(List<ProfileViewModel> profileResults)
+        //{
+        //    return View(profileResults);
+        //}
 
 
         public IActionResult UserProfile()
