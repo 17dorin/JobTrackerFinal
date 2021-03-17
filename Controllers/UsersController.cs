@@ -22,6 +22,35 @@ namespace FinalProject.Controllers
             return View();
         }
 
+        public IActionResult SearchUsers()
+        {
+            List<Skill> skills = _context.Skills.ToList();
+
+            return View(skills);
+        }
+        [HttpPost]
+        public IActionResult SearchUsers(List<int> skillIds)
+        {
+            List<string> matchingUserIds = _context.UserSkills.Where(x => skillIds.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
+
+            List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id)).ToList();
+
+            List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
+
+            foreach(AspNetUser u in matchingUsers)
+            {
+                List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == u.Id).Select(x => x.SkillId).ToList();
+
+                List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
+
+                ProfileViewModel p = new ProfileViewModel(u, skills);
+
+                profileResults.Add(p);
+            }
+
+            
+        }
+
 
         public IActionResult UserProfile()
         {

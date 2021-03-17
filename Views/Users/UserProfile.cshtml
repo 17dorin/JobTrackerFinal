@@ -1,14 +1,14 @@
 ﻿@model ProfileViewModel
 
 
-    <p>Email: @Model.user.Email</p>
-    <p>Phone: @Model.user.PhoneNumber</p>
-    <p>Location: @Model.user.Location</p>
-    <p>Bio: @Model.user.Biography</p>
-    <p>Github: <a href="https://www.github.com/@Model.user.GitHub">@Model.user.GitHub</a>
+    <p>Email: @Model.Email</p>
+    <p>Phone: @Model.PhoneNumber</p>
+    <p>Location: @Model.Location</p>
+    <p>Bio: @Model.Biography</p>
+    <p>Github: <a href="https://www.github.com/@Model.GitHub">@Model.GitHub</a>
     <br /></p>
 
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/@Model.user.LinkedIn">@Model.user.LinkedIn</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/@Model.LinkedIn">@Model.LinkedIn</a></p>
     <br />
     <p>Skills: </p>
     @foreach(Skill s in Model.skills)
