@@ -18,28 +18,16 @@
     @Html.HiddenFor(x => x.LockoutEnabled)
     @Html.HiddenFor(x => x.LockoutEnd)
     @Html.HiddenFor(x => x.AccessFailedCount)
+    @Html.HiddenFor(x => x.NormalizedUserName)
 
-    <p>Name: @Html.EditorFor(x => x.NormalizedUserName)</p>
     <p>Location: @Html.EditorFor(x => x.Location)</p>
-    <p>LinkedIn: @Html.EditorFor(x => x.LinkedIn)</p>
-    <p>GitHub: @Html.EditorFor(x => x.GitHub)</p>
+    <p>LinkedIn UserName: @Html.EditorFor(x => x.LinkedIn)</p>
+    <p>GitHub UserName: @Html.EditorFor(x => x.GitHub)</p>
     <p>Bio: @Html.EditorFor(x => x.Biography)</p>
     <p>Phone: @Html.EditorFor(x => x.PhoneNumber)</p>
 
 
-    <input type="submit" />
+    <input type="submit" value="Save Changes" />
 
 
 </form>
-
-
-
-
-@*<p>@a.NormalizedUserName</p>
-    <p>@a.Location</p>
-    <p>@a.GitHub</p>
-    <p>@a.LinkedIn</p>
-    <p>@a.Biography</p>
-    <p>@a.Location</p>
-    <p>@a.Email</p>
-    <p>@a.PhoneNumber</p>*@
