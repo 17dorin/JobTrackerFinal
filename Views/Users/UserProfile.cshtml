@@ -1,19 +1,22 @@
-﻿@model List<AspNetUser>
+﻿@model ProfileViewModel
 
-@foreach (AspNetUser a in Model)
-{
-    <p>Email: @a.Email</p>
-    <p>Phone: @a.PhoneNumber</p>
-    <p>Location: @a.Location</p>
-    <p>Bio: @a.Biography</p>
-    <p>Github: <a href="https://www.github.com/@a.GitHub">@a.GitHub</a>
+
+    <p>Email: @Model.user.Email</p>
+    <p>Phone: @Model.user.PhoneNumber</p>
+    <p>Location: @Model.user.Location</p>
+    <p>Bio: @Model.user.Biography</p>
+    <p>Github: <a href="https://www.github.com/@Model.user.GitHub">@Model.user.GitHub</a>
     <br /></p>
 
-    <p>LinkedIn: <a href="https://www.linkedin.com/in/@a.LinkedIn">@a.LinkedIn</a></p>
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/@Model.user.LinkedIn">@Model.user.LinkedIn</a></p>
     <br />
+    <p>Skills: </p>
+    @foreach(Skill s in Model.skills)
+    {
+    <p>@s.Skill1</p>
+    }
+
 
     <br />
     <a href="/Users/EditUserProfile">Edit Profile</a>
 
-
-}

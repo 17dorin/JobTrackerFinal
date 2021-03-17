@@ -25,7 +25,19 @@ namespace FinalProject.Controllers
 
         public IActionResult UserProfile()
         {
-            return View(_context.AspNetUsers.Where(x => x.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == userId).Select(x => x.SkillId).ToList();
+
+            List<Skill> skills = _context.Skills.ToList();
+
+            skills = skills.Where(x => userSkills.Contains(x.Id)).ToList();
+
+            //TempData["skills"] = skills;
+
+            ProfileViewModel pvm = new ProfileViewModel(_context.AspNetUsers.Where(x => x.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList()[0], skills);
+
+            return View(pvm);
+
         }
 
 
