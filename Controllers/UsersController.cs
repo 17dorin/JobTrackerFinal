@@ -29,9 +29,9 @@ namespace FinalProject.Controllers
             return View(skills);
         }
         [HttpPost]
-        public IActionResult SearchUsers(List<int> skillIds)
+        public IActionResult SearchUsers(List<int> skillId)
         {
-            List<string> matchingUserIds = _context.UserSkills.Where(x => skillIds.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
+            List<string> matchingUserIds = _context.UserSkills.Where(x => skillId.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
 
             List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id)).ToList();
 
@@ -47,8 +47,14 @@ namespace FinalProject.Controllers
 
                 profileResults.Add(p);
             }
+            return RedirectToAction("SearchUsersResults", new { profileResults = profileResults });
+            /*, new {profiles=profileResults}*/
 
-            
+
+        }
+        public IActionResult SearchUsersResults(List<ProfileViewModel> profileResults)
+        {
+            return View(profileResults);
         }
 
 

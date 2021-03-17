@@ -1,7 +1,7 @@
 ﻿@model List<Skill> 
 <h4>What skills do you want to search for?</h4>
 
-<form asp-controller="Users" asp-action="SearchUsers" method="post">
+<form name="skillIds" asp-controller="Users" asp-action="SearchUsers" method="post">
     @foreach (Skill s in Model)
     {
         <input type="checkbox" id="@s.Skill1" name="skillId" value="@s.Id" />
