@@ -48,8 +48,6 @@ namespace FinalProject.Controllers
                 profileResults.Add(p);
             }
             return View("SearchUsersResults", profileResults);
-
-
         }
 
 
@@ -67,7 +65,21 @@ namespace FinalProject.Controllers
             ProfileViewModel pvm = new ProfileViewModel(_context.AspNetUsers.Where(x => x.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList()[0], skills);
 
             return View(pvm);
+        }
 
+        [HttpGet]
+        //"Overload" of user profile action, which our user search results view redirects to
+        public IActionResult UserProfile(string userId)
+        {
+            List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == userId).Select(x => x.SkillId).ToList();
+
+            List<Skill> skills = _context.Skills.ToList();
+
+            skills = skills.Where(x => userSkills.Contains(x.Id)).ToList();
+
+            ProfileViewModel p = new ProfileViewModel(_context.AspNetUsers.Where(x => x.Id == userId).ToList()[0], skills);
+
+            return View(p);
         }
 
 
