@@ -10,13 +10,20 @@ namespace FinalProject.Helpers
 {
     public class TextHelper
     {
+        //Our API will sometimes return data with embedded HTML tags, this method is called to remove them
         public static string RemoveHTML(string raw)
         {
+            if (string.IsNullOrWhiteSpace(raw))
+            {
+                return "";
+            }
             string cleaned = Regex.Replace(raw, "<.*?>", string.Empty);
 
             return cleaned;
         }
 
+        //The redirect urls returned by our API will sometimes be different even if they redirect to the same job,
+        //so this method compares the 
         public static bool CompareJobUrl(string dbUrl, string resultUrl)
         {
             string parsedDb = dbUrl.Substring(0, dbUrl.IndexOf('?') + 1);
