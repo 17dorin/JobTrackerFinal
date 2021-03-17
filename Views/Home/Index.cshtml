@@ -8,11 +8,11 @@
     <br/>
 
     <label for="what">What kind of job are you looking for? (Example: ".NET Developer" or ".NET, SQL")</label>
-    <input type="text" name="what" required />
+    <input type="text" name="what" required pattern=".*\S+.*" />
     <br/>
 
     <label for="where">Where do you want a job? (State, County, or City)</label>
-    <input type="text" name="where" required />
+    <input type="text" name="where" required pattern=".*\S+.*" />
     <input type="submit" />
 </form>
 
