@@ -198,6 +198,7 @@ namespace FinalProject.Controllers
             return View("Search", jobResults);
         }
 
+        // Simple view to display form asking user for job information
         public IActionResult Add()
         {
             return View();
@@ -209,54 +210,72 @@ namespace FinalProject.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Ensuring job.UserId is set to the UserId of logged in user
                 job.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                // Add job and save changes in database
                 _context.Add(job);
                 await _context.SaveChangesAsync();
+
+                // Storing action name in TempData to customize Success page
                 TempData["action"] = "add";
                 return RedirectToAction("Success", job);
             }
-            //return RedirectToAction("Failure", job);
             return View(job);
         }
 
-        // Remove/DELETE CRUD
+        // Renders delete view where job info is displayed to user and they're asked to confirm deletion
         public async Task<IActionResult> Delete(int? id)
         {
+            // Validation returning a 404 if no id passed to controller
             if (id == null)
             {
                 return NotFound();
             }
 
+            // Created job based on output from database matching id passed to controller
             var job = await _context.Jobs
                 .FirstOrDefaultAsync(m => m.Id == id);
+
+            // Returns 404 if no output from database
             if (job == null)
             {
                 return NotFound();
             }
-
             return View(job);
         }
 
+        // Remove/DELETE CRUD
+        // Delete confirmation view posts to this action
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            // Create job based on id passed into controller
             var job = await _context.Jobs.FindAsync(id);
+
+            // Remove job from database and saves changes
             _context.Jobs.Remove(job);
             await _context.SaveChangesAsync();
+
+            // Stores action name in tempdata to customize success vew
             TempData["action"] = "delete";
             return RedirectToAction("Success", job);
         }
 
-        // Edit/Update CRUD
-        public async Task<IActionResult> Update(int? Id)
+        // Update view renders a form that displays job data based on id passed to controller where users can change details
+        public async Task<IActionResult> Update(int? id)
         {
-            if (Id == null)
+
+            // Validation returning a 404 if no id passed to controller
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var job = await _context.Jobs.FindAsync(Id);
+            // Creates job based on passed in id
+            var job = await _context.Jobs.FindAsync(id);
+
+            // If job is empty after pulling from db return 404
             if (job == null)
             {
                 return NotFound();
@@ -264,9 +283,11 @@ namespace FinalProject.Controllers
             return View(job);
         }
 
+        // Edit/Update CRUD
         [HttpPost]
         public async Task<IActionResult> Update(int id, [Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
         {
+            // Validation ensuring the passed in id matches job's Id
             if (id != job.Id)
             {
                 return NotFound();
@@ -276,9 +297,12 @@ namespace FinalProject.Controllers
             {
                 try
                 {
+                    // Update database with job values that were passed in
                     _context.Jobs.Update(job);
                     await _context.SaveChangesAsync();
                 }
+
+                // If the above SaveChanges returns no rows updated we'll throw an exception
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!JobExists(job.Id))
@@ -290,17 +314,21 @@ namespace FinalProject.Controllers
                         throw;
                     }
                 }
+
+                // Storing action name within tempdata to customize the success page
                 TempData["action"] = "update";
                 return RedirectToAction("Success", job);
             }
             return View(job);
         }
 
+        // All CRUD actions pass to this view to show a successful change
         public IActionResult Success(Job job)
         {
             return View(job);
         }
 
+        // Method to check if a job exists which is used in earlier methods
         private bool JobExists(int id)
         {
             return _context.Jobs.Any(e => e.Id == id);
