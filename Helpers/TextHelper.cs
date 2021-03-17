@@ -23,7 +23,7 @@ namespace FinalProject.Helpers
         }
 
         //The redirect urls returned by our API will sometimes be different even if they redirect to the same job,
-        //so this method compares the 
+        //so this method compares the part of the URL that is unique for each job
         public static bool CompareJobUrl(string dbUrl, string resultUrl)
         {
             string parsedDb = dbUrl.Substring(0, dbUrl.IndexOf('?') + 1);
@@ -32,18 +32,19 @@ namespace FinalProject.Helpers
             return parsedDb.Equals(parsedResult);
         }
 
-        public static string GetWhatParameter(List<Skill> skills)
-        {
-            string what = "";
+        //public static string GetWhatParameter(List<Skill> skills)
+        //{
+        //    string what = "";
 
-            foreach(Skill s in skills)
-            {
-                what = String.Join(' ', what, s.Skill1);
-            }
+        //    foreach(Skill s in skills)
+        //    {
+        //        what = String.Join(' ', what, s.Skill1);
+        //    }
 
-            return what;
-        }
+        //    return what;
+        //}
 
+        //Takes in a list of user skills, then encodes them and joins them into one string to plug into our API
         public static string GetEncodedWhat(List<Skill> skills)
         {
             string encodedWhat = "";
