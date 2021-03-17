@@ -36,7 +36,8 @@ namespace FinalProject.Controllers
         {
             //Encodes any special characters in the search string, then gets data from the API and puts it in a results list
             string encodedWhat = WebUtility.UrlEncode(what);
-            Rootobject r = jd.SearchJobs(country.ToLower(), page, encodedWhat, where);
+            string encodedWhere = WebUtility.UrlEncode(where);
+            Rootobject r = jd.SearchJobs(country.ToLower(), page, encodedWhat, encodedWhere);
             List<Result> jobResults = r.results.ToList();
 
             //If user is logged in, hide results the user already has saved in their tracker
@@ -94,9 +95,10 @@ namespace FinalProject.Controllers
 
             //Method from a helper class, converts all skills into one url encoded string
             string what = TextHelper.GetEncodedWhat(skills).Trim();
-            
+
             //Get job results
-            Rootobject r = jd.SearchJobs(country.ToLower(), page, what, where);
+            string encodedWhere = WebUtility.UrlEncode(where);
+            Rootobject r = jd.SearchJobs(country.ToLower(), page, what, encodedWhere);
             List<Result> jobResults = r.results.ToList();
 
             //If user is logged in, remove already saved jobs from search results
@@ -147,8 +149,9 @@ namespace FinalProject.Controllers
 
             //Encodes any special characters, gets results from API
             string encodedWhat = WebUtility.UrlEncode(what);
+            string encodedWhere = WebUtility.UrlEncode(where);
 
-            Rootobject r = jd.SearchJobs(country, page, encodedWhat, where);
+            Rootobject r = jd.SearchJobs(country, page, encodedWhat, encodedWhere);
             List<Result> jobResults = r.results.ToList();
 
             //Gets the job result matching the id passed back to the controller
