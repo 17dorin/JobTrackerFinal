@@ -48,14 +48,9 @@ namespace FinalProject.Controllers
                 profileResults.Add(p);
             }
             return View("SearchUsersResults", profileResults);
-            /*, new {profiles=profileResults}*/
 
 
         }
-        //public IActionResult SearchUsersResults(List<ProfileViewModel> profileResults)
-        //{
-        //    return View(profileResults);
-        //}
 
 
         public IActionResult UserProfile()
