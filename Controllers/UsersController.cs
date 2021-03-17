@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
 {
-
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly FinalProjectContext _context;
@@ -22,7 +22,42 @@ namespace FinalProject.Controllers
             return View();
         }
 
-        [Authorize]
+
+        public IActionResult UserProfile()
+        {
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == userId).Select(x => x.SkillId).ToList();
+
+            List<Skill> skills = _context.Skills.ToList();
+
+            skills = skills.Where(x => userSkills.Contains(x.Id)).ToList();
+
+            //TempData["skills"] = skills;
+
+            ProfileViewModel pvm = new ProfileViewModel(_context.AspNetUsers.Where(x => x.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList()[0], skills);
+
+            return View(pvm);
+
+        }
+
+
+        public IActionResult EditUserProfile()
+        {
+            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return View(a);
+        }
+        [HttpPost]
+        public IActionResult EditUserProfile(AspNetUser a)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.AspNetUsers.Update(a);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("UserProfile");
+        }
+
+
         public IActionResult Skills()
         {
             List<UserSkill> uSkill = _context.UserSkills
@@ -42,7 +77,7 @@ namespace FinalProject.Controllers
             return View(skills);
         }
 
-        [Authorize]
+
         public IActionResult AddSkills(List<int> skillId)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

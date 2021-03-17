@@ -32,6 +32,10 @@ namespace FinalProject.Models
         public DateTimeOffset? LockoutEnd { get; set; }
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
+        public string Biography { get; set; }
+        public string Location { get; set; }
+        public string GitHub { get; set; }
+        public string LinkedIn { get; set; }
 
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }

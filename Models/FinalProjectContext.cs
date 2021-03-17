@@ -33,7 +33,7 @@ namespace FinalProject.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=FinalProject;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=gc-jobtracker.database.windows.net;Database=FinalProject;Trusted_Connection=False; Encrypt=True; User ID=user-jobtracker;Password=GrandCircu$");
             }
         }
 
@@ -71,7 +71,15 @@ namespace FinalProject.Models
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
+                entity.Property(e => e.Biography).HasMaxLength(400);
+
                 entity.Property(e => e.Email).HasMaxLength(256);
+
+                entity.Property(e => e.GitHub).HasMaxLength(40);
+
+                entity.Property(e => e.LinkedIn).HasMaxLength(40);
+
+                entity.Property(e => e.Location).HasMaxLength(30);
 
                 entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
 
@@ -161,7 +169,7 @@ namespace FinalProject.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Jobs)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Jobs__UserId__3B75D760");
+                    .HasConstraintName("FK__Jobs__UserId__75A278F5");
             });
 
             modelBuilder.Entity<Skill>(entity =>
@@ -178,12 +186,12 @@ namespace FinalProject.Models
                 entity.HasOne(d => d.Skill)
                     .WithMany(p => p.UserSkills)
                     .HasForeignKey(d => d.SkillId)
-                    .HasConstraintName("FK__UserSkill__Skill__3F466844");
+                    .HasConstraintName("FK__UserSkill__Skill__778AC167");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserSkills)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__UserSkill__UserI__3E52440B");
+                    .HasConstraintName("FK__UserSkill__UserI__76969D2E");
             });
 
             OnModelCreatingPartial(modelBuilder);

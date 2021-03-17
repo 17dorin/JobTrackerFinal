@@ -1,0 +1,33 @@
+﻿@model AspNetUser
+
+
+
+<form method="post" asp-controller="Users" asp-action="EditUserProfile">
+
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.UserName)
+    @Html.HiddenFor(x => x.NormalizedUserName)
+    @Html.HiddenFor(x => x.Email)
+    @Html.HiddenFor(x => x.NormalizedEmail)
+    @Html.HiddenFor(x => x.EmailConfirmed)
+    @Html.HiddenFor(x => x.PasswordHash)
+    @Html.HiddenFor(x => x.SecurityStamp)
+    @Html.HiddenFor(x => x.ConcurrencyStamp)
+    @Html.HiddenFor(x => x.PhoneNumberConfirmed)
+    @Html.HiddenFor(x => x.TwoFactorEnabled)
+    @Html.HiddenFor(x => x.LockoutEnabled)
+    @Html.HiddenFor(x => x.LockoutEnd)
+    @Html.HiddenFor(x => x.AccessFailedCount)
+    @Html.HiddenFor(x => x.NormalizedUserName)
+
+    <p>Location: @Html.EditorFor(x => x.Location)</p>
+    <p>LinkedIn UserName: @Html.EditorFor(x => x.LinkedIn)</p>
+    <p>GitHub UserName: @Html.EditorFor(x => x.GitHub)</p>
+    <p>Bio: @Html.EditorFor(x => x.Biography)</p>
+    <p>Phone: @Html.EditorFor(x => x.PhoneNumber)</p>
+
+
+    <input type="submit" value="Save Changes" />
+
+
+</form>
