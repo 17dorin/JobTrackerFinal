@@ -10,6 +10,12 @@ namespace FinalProject.Models
 {
     public class JobDAL
     {
+        // Request data from our API URL and return json response (string)
+        // Using parameters:
+        //  what / what_or - find jobs based on key words delimited by space characters
+        //  where - find jobs based in different regions / states / cities (dependant on country parameter)
+        //  page - api sends results by pages that we will need to crawl through
+        //  country - find jobs based in different countries
         public string GetData(string country, int page = 1, string what = null, string where = null)
         {
             string url = $"https://api.adzuna.com/v1/api/jobs/{country}/search/{page}?what_or={what}&where={where}&app_id=0e272246&app_key=b3f98fd2abc65138aec301152403b956&content-type=application/json&";
@@ -25,6 +31,7 @@ namespace FinalProject.Models
             return json;
         }
 
+        // Convert given json reponse (string) and deserialize into a Rootobject object
         public Rootobject SearchJobs(string country, int page, string what, string where)
         {
             string json = GetData(country, page, what, where);
