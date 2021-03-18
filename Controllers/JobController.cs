@@ -147,11 +147,7 @@ namespace FinalProject.Controllers
             string what = TempData["what"].ToString();
             string where = TempData["where"].ToString();
 
-            //Encodes any special characters, gets results from API
-            string encodedWhat = WebUtility.UrlEncode(what);
-            string encodedWhere = WebUtility.UrlEncode(where);
-
-            Rootobject r = jd.SearchJobs(country, page, encodedWhat, encodedWhere);
+            Rootobject r = jd.SearchJobs(country, page, what, where);
             List<Result> jobResults = r.results.ToList();
 
             //Gets the job result matching the id passed back to the controller
