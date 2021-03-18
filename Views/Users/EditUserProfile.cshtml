@@ -1,7 +1,5 @@
 ﻿@model AspNetUser
 
-
-
 <form method="post" asp-controller="Users" asp-action="EditUserProfile">
 
     @Html.HiddenFor(x => x.Id)
@@ -25,6 +23,9 @@
     <p>GitHub UserName: @Html.EditorFor(x => x.GitHub)</p>
     <p>Bio: @Html.EditorFor(x => x.Biography)</p>
     <p>Phone: @Html.EditorFor(x => x.PhoneNumber)</p>
+    <br />
+    <a href="/Users/Skills">Edit Skills</a>
+    <br/>
 
 
     <input type="submit" value="Save Changes" />

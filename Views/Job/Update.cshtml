@@ -48,14 +48,17 @@
                 <span asp-validation-for="CompanySite" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Responded" class="control-label"></label>
-                <input asp-for="Responded" class="form-control" />
-                <span asp-validation-for="Responded" class="text-danger"></span>
+                <label asp-for="Responded"></label><br />
+                <select asp-for="Responded" name="Responded" class="form-control">
+                    <option value="True">Yes</option>
+                    <option value="False">No</option>
+                </select>
             </div>
             <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
+                <label asp-for="Notes" class="control-label"></label><br />
+                <textarea asp-for="Notes" name="Notes" class="form-control">
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </textarea>
             </div>
             @Html.HiddenFor(x => x.Id)
             @Html.HiddenFor(x => x.UserId)
