@@ -49,14 +49,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="Responded"></label><br />
-                <select asp-for="Responded" name="Responded">
+                <select asp-for="Responded" name="Responded" class="form-control">
                     <option value="True">Yes</option>
                     <option value="False">No</option>
                 </select>
             </div>
             <div class="form-group">
                 <label asp-for="Notes" class="control-label"></label><br />
-                <textarea rows="4" cols="30" asp-for="Notes" name="Notes">
+                <textarea asp-for="Notes" name="Notes" class="form-control">
                 <span asp-validation-for="Notes" class="text-danger"></span>
                 </textarea>
             </div>
