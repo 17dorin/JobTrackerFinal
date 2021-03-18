@@ -3,11 +3,9 @@
 @foreach (ProfileViewModel p in Model)
 {
     <p>Email: @p.Email</p>
-    <p>Phone: @p.PhoneNumber</p>
     <p>Location: @p.Location</p>
-    <p>Bio: @p.Biography</p>
-    <p>GitHub: @p.GitHub</p>
-    <p>LinkedIn: @p.LinkedIn</p>
+
+
     <a asp-controller="Users" asp-action="UserProfileResult" asp-route-userId="@p.UserId">View Profile</a>
     <p>_______________________________</p>
 }
