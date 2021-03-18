@@ -50,18 +50,16 @@ namespace FinalProject.Controllers
             return View("SearchUsersResults", profileResults);
         }
 
-
+        //Displays information about the user
         public IActionResult UserProfile()
         {
+            //Gets currently logged in user ID
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //Gets the IDs of the skills the user has
             List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == userId).Select(x => x.SkillId).ToList();
-
-            List<Skill> skills = _context.Skills.ToList();
-
-            skills = skills.Where(x => userSkills.Contains(x.Id)).ToList();
-
-            //TempData["skills"] = skills;
-
+            //Gets a list of skills entries based off of the userSkill IDs
+            List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
+            //Makes a view model, consisting of the list of skills and the currently logged in AspNetUser
             ProfileViewModel pvm = new ProfileViewModel(_context.AspNetUsers.Where(x => x.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList()[0], skills);
 
             return View(pvm);
@@ -71,12 +69,11 @@ namespace FinalProject.Controllers
         //"Overload" of user profile action, which our user search results view redirects to
         public IActionResult UserProfile(string userId)
         {
+            //Gets the userSkills for the userId passed from the view
             List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == userId).Select(x => x.SkillId).ToList();
-
-            List<Skill> skills = _context.Skills.ToList();
-
-            skills = skills.Where(x => userSkills.Contains(x.Id)).ToList();
-
+            //Gets a list of Skills based off of those skill IDs
+            List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
+            //Makes a view model consisting of the list of skills and the AspNetUser matching the passed ID
             ProfileViewModel p = new ProfileViewModel(_context.AspNetUsers.Where(x => x.Id == userId).ToList()[0], skills);
 
             return View(p);
