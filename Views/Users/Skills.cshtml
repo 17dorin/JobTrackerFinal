@@ -1,17 +1,17 @@
 ﻿@model List<Skill>
 
 @{ 
-    List<int> ownedSkills = (List<int>)TempData["OwnedSkills"];
+    List<int> ExistingSkills = (List<int>)TempData["ExistingSkills"];
 }
 
 <h4>Add your tech skills below:</h4>
 <form asp-controller="Users" asp-action="AddSkills">
 
-    @if (ownedSkills != null)
+    @if (ExistingSkills != null)
     {
         foreach (Skill s in Model)
         {
-            if (ownedSkills.Any(x => x.Equals(s.Id)))
+            if (ExistingSkills.Any(x => x.Equals(s.Id)))
             {
                 <input type="checkbox" id="@s.Skill1" name="skillId" value="@s.Id" checked />
                 <label for="@s.Skill1">@s.Skill1</label>
