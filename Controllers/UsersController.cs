@@ -57,36 +57,46 @@ namespace FinalProject.Controllers
             return RedirectToAction("UserProfile");
         }
 
-
+        // Returns View : Routes a List of Skills into the list
         public IActionResult Skills()
         {
-            List<UserSkill> uSkill = _context.UserSkills
-                .Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList();
-            List<int> skillId = new List<int>();
-            foreach(UserSkill u in uSkill)
+            // Obtain all skills current user already has/checked from UserSkills table
+            List<UserSkill> existingSkills = _context.UserSkills
+                .Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                .ToList();
+
+            // Add all current user's skills onto a new int list
+            List<int> existingSkillIds = new List<int>();
+            foreach(UserSkill skill in existingSkills)
             {
-                skillId.Add((int)u.SkillId);
+                existingSkillIds.Add((int)skill.SkillId);
             }
 
-            if (skillId.Count != 0)
+            // If user does not have any existing skills (newly registered users) then
+            // insert into a TempData
+            if (existingSkillIds.Count != 0)
             {
-                TempData["OwnedSkills"] = skillId;
+                TempData["ExistingSkills"] = existingSkillIds;
             }
 
+            // List of skills for checklist labels and values of View
             List<Skill> skills = _context.Skills.ToList();
             return View(skills);
         }
 
-
+        // Returns View : confirms that you saved your skills to the current user
+        // Action: Saves checked off skills into the UserSkills table
+        // Routed Data : list of integers representing skill ids from Skills table
         public IActionResult AddSkills(List<int> skillId)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            // Check if skill ids aren't empty
             if (skillId.Count != 0)
             {
+                // Get all existing skills current user already has
                 var check = _context.UserSkills.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 foreach(int i in skillId)
                 {
+                    // Avoid adding duplicates by checking if check skill ids exists within the current user
                     if (check.Where(x => x.SkillId == i).ToList().Count <= 0)
                     {
                         UserSkill s = new UserSkill();
@@ -98,9 +108,11 @@ namespace FinalProject.Controllers
 
             }
 
+            // Check if skill is unchecked, if it is unchecked but skill is in UserSkills table, remove it
             var check2 = _context.UserSkills.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList();
             foreach(UserSkill u in check2)
             {
+                // If you cannot find skill in UserSkills table, remove it
                 if (skillId.IndexOf((int)u.SkillId) == -1)
                 {
                     _context.UserSkills.Remove(u);
