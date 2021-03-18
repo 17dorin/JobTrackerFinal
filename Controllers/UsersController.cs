@@ -67,7 +67,7 @@ namespace FinalProject.Controllers
             return View(pvm);
         }
 
-        [HttpGet]
+        [NonAction]
         //"Overload" of user profile action, which our user search results view redirects to
         public IActionResult UserProfile(string userId)
         {

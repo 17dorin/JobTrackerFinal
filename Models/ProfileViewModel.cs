@@ -17,16 +17,6 @@ namespace FinalProject.Models
 
         public List<Skill> skills { get; set; }
 
-        //public ProfileViewModel()
-        //{
-        //    this.Email = "email";
-        //    this.PhoneNumber = "phone";
-        //    this.Location = "location";
-        //    this.Biography = "bio";
-        //    this.GitHub = "GitHub";
-        //    this.LinkedIn = "LinkedIn";
-        //    this.skills = new List<Skill>();
-        //}
         public ProfileViewModel(AspNetUser user, List<Skill> skills)
         {
             this.UserId = user.Id;

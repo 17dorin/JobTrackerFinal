@@ -10,7 +10,7 @@ else
     foreach (Result r in Model)
     {
         <p>Company: @TextHelper.RemoveHTML(r.company.display_name)</p>
-        <p>Title: @TextHelper.RemoveHTML(r.title)</p>
+        <p>Title: <a href="@r.redirect_url">@TextHelper.RemoveHTML(r.title)</a></p>
         <p>Description: @TextHelper.RemoveHTML(r.description)</p>
         <a asp-controller="Job" asp-action="AddFromSearch" asp-route-id="@r.id">Add to saved jobs</a>
     }
