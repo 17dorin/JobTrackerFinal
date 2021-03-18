@@ -69,9 +69,8 @@ namespace FinalProject.Controllers
             return View(pvm);
         }
 
-        [NonAction]
         //"Overload" of user profile action, which our user search results view redirects to
-        public IActionResult UserProfile(string userId)
+        public IActionResult UserProfileResult(string userId)
         {
             //Gets the userSkills for the userId passed from the view
             List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == userId).Select(x => x.SkillId).ToList();
@@ -80,7 +79,7 @@ namespace FinalProject.Controllers
             //Makes a view model consisting of the list of skills and the AspNetUser matching the passed ID
             ProfileViewModel p = new ProfileViewModel(_context.AspNetUsers.Where(x => x.Id == userId).ToList()[0], skills);
 
-            return View(p);
+            return View("UserProfile", p);
         }
 
 
