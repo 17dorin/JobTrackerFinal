@@ -17,6 +17,8 @@ namespace FinalProject.Models
         public bool? IsEmployer { get; set; }
         public bool? IsPrivate { get; set; } 
 
+        public string UserName { get; set; }
+
         public List<Skill> skills { get; set; }
 
         public ProfileViewModel(AspNetUser user, List<Skill> skills)
@@ -31,6 +33,7 @@ namespace FinalProject.Models
             this.LinkedIn = user.LinkedIn;
             this.IsEmployer = user.IsEmployer;
             this.IsPrivate = user.IsPrivate;
+            this.UserName = user.UserName;
         }
     }
 }

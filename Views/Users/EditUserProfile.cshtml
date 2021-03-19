@@ -5,7 +5,6 @@
 <form method="post" asp-controller="Users" asp-action="EditUserProfile">
 
     @Html.HiddenFor(x => x.Id)
-    @Html.HiddenFor(x => x.UserName)
     @Html.HiddenFor(x => x.NormalizedUserName)
     @Html.HiddenFor(x => x.Email)
     @Html.HiddenFor(x => x.NormalizedEmail)
@@ -20,6 +19,7 @@
     @Html.HiddenFor(x => x.AccessFailedCount)
     @Html.HiddenFor(x => x.NormalizedUserName)
 
+    <p>Name: @Html.EditorFor(x => x.UserName)</p>
     <p>Location: @Html.EditorFor(x => x.Location)</p>
     <p>LinkedIn UserName: @Html.EditorFor(x => x.LinkedIn)</p>
     <p>GitHub UserName: @Html.EditorFor(x => x.GitHub)</p>
