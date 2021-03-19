@@ -1,0 +1,12 @@
+﻿@model List<Skill> 
+<h4>What skills do you want to search for?</h4>
+
+<form name="skillIds" asp-controller="Users" asp-action="SearchUsers" method="post">
+    @foreach (Skill s in Model)
+    {
+        <input type="checkbox" id="@s.Skill1" name="skillId" value="@s.Id" />
+        <label for="@s.Skill1">@s.Skill1</label>
+        <br/>
+    }
+    <input type="submit" />
+</form>

@@ -1,0 +1,28 @@
+﻿@using System.Security.Claims;
+@model ProfileViewModel
+
+
+<p>Email: @Model.Email</p>
+<p>Phone: @Model.PhoneNumber</p>
+<p>Location: @Model.Location</p>
+<p>Bio: @Model.Biography</p>
+<p>
+    Github: <a href="https://www.github.com/@Model.GitHub">@Model.GitHub</a>
+    <br />
+</p>
+
+<p>LinkedIn: <a href="https://www.linkedin.com/in/@Model.LinkedIn">@Model.LinkedIn</a></p>
+<br />
+<p>Skills: </p>
+@foreach (Skill s in Model.skills)
+{
+    <p>@s.Skill1</p>
+}
+
+
+@if (Model.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
+{
+    <br />
+    <a href="/Users/EditUserProfile">Edit Profile</a>
+    <br />
+}

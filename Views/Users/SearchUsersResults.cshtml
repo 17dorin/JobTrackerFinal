@@ -1,0 +1,11 @@
+﻿@model List<ProfileViewModel>
+
+@foreach (ProfileViewModel p in Model)
+{
+    <p>Email: @p.Email</p>
+    <p>Location: @p.Location</p>
+
+
+    <a asp-controller="Users" asp-action="UserProfileResult" asp-route-userId="@p.UserId">View Profile</a>
+    <p>_______________________________</p>
+}

@@ -1,0 +1,72 @@
+﻿@model Job
+
+@{ 
+    ViewData["Title"] = "Add Job";
+}
+
+<h2>Add Job to Tracker:</h2>
+<p>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Add">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Company" class="control-label"></label>
+                    <input asp-for="Company" class="form-control" />
+                    <span asp-validation-for="Company" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Position" class="control-label"></label>
+                    <input asp-for="Position" class="form-control" />
+                    <span asp-validation-for="Position" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Contact" class="control-label"></label>
+                    <input asp-for="Contact" class="form-control" />
+                    <span asp-validation-for="Contact" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Method" class="control-label"></label>
+                    <input asp-for="Method" class="form-control" />
+                    <span asp-validation-for="Method" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateOfApplication" class="control-label"></label>
+                    <input asp-for="DateOfApplication" class="form-control" />
+                    <span asp-validation-for="DateOfApplication" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Link" class="control-label"></label>
+                    <input asp-for="Link" class="form-control" />
+                    <span asp-validation-for="Link" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FollowUp" class="control-label"></label>
+                    <input asp-for="FollowUp" class="form-control" />
+                    <span asp-validation-for="FollowUp" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CompanySite" class="control-label"></label>
+                    <input asp-for="CompanySite" class="form-control" />
+                    <span asp-validation-for="CompanySite" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Responded"></label><br />
+                    <select asp-for="Responded" name="Responded" class="form-control">
+                        <option value="True">Yes</option>
+                        <option value="False">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Notes" class="control-label"></label><br />
+                    <textarea asp-for="Notes" name="Notes" class="form-control">
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</p>
