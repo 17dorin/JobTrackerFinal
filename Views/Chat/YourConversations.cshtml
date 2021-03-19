@@ -1,0 +1,32 @@
+﻿@model List<AspNetUser>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+<table>
+    <tr>
+        <th><h4>Inbox:</h4></th>
+    </tr>
+@foreach(AspNetUser a in Model)
+{
+    <tr>
+        <td><a asp-action="Chat" asp-controller="Chat" asp-route-receiverId="@a.Id">@a.UserName</a></td>
+    </tr>
+    <br />
+    <br />
+}
+</table>
