@@ -23,9 +23,9 @@ namespace FinalProject.Controllers
         }
 
         //Returns a view containing all skills in our DB to search by
-        public IActionResult SearchUsers(AspNetUser a)
+        public IActionResult SearchUsers()
         {
-            a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             if (a.IsEmployer == true)
             {
@@ -40,16 +40,16 @@ namespace FinalProject.Controllers
         }
         [HttpPost]
         //Displays a list of all users that match the skills searched by
-        public IActionResult SearchUsers(List<int> skillId, AspNetUser a)
+        public IActionResult SearchUsers(List<int> skillId)
         {
-            a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             if (a.IsEmployer == true)
             {
                 //Gets all unique userIds that are paired with any of the passed skillIds in our UserSkills table
                 List<string> matchingUserIds = _context.UserSkills.Where(x => skillId.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
                 //Gets all matching users based off of userIds
-                List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id)&& x.IsPrivate == false).ToList();
+                List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id)&&(x.IsPrivate == false)&&(x.IsEmployer==false)).ToList();
 
                 List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
                 //Makes a View Model for each AspNetUser that matched
@@ -108,6 +108,7 @@ namespace FinalProject.Controllers
         [HttpPost]
         public IActionResult EditUserProfile(AspNetUser a, bool IsPrivate)
         {
+
             if (ModelState.IsValid)
             {
                 if(IsPrivate == false)
@@ -127,28 +128,37 @@ namespace FinalProject.Controllers
         // Returns View : Routes a List of Skills into the list
         public IActionResult Skills()
         {
-            // Obtain all skills current user already has/checked from UserSkills table
-            List<UserSkill> existingSkills = _context.UserSkills
-                .Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
-                .ToList();
+            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            // Add all current user's skills onto a new int list
-            List<int> existingSkillIds = new List<int>();
-            foreach(UserSkill skill in existingSkills)
+            if (a.IsEmployer == false)
             {
-                existingSkillIds.Add((int)skill.SkillId);
-            }
+                // Obtain all skills current user already has/checked from UserSkills table
+                List<UserSkill> existingSkills = _context.UserSkills
+                    .Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                    .ToList();
 
-            // If user does not have any existing skills (newly registered users) then
-            // insert into a TempData
-            if (existingSkillIds.Count != 0)
+                // Add all current user's skills onto a new int list
+                List<int> existingSkillIds = new List<int>();
+                foreach (UserSkill skill in existingSkills)
+                {
+                    existingSkillIds.Add((int)skill.SkillId);
+                }
+
+                // If user does not have any existing skills (newly registered users) then
+                // insert into a TempData
+                if (existingSkillIds.Count != 0)
+                {
+                    TempData["ExistingSkills"] = existingSkillIds;
+                }
+
+                // List of skills for checklist labels and values of View
+                List<Skill> skills = _context.Skills.Where(x => x.Vote >= 5).ToList();
+                return View(skills);
+            }
+            else
             {
-                TempData["ExistingSkills"] = existingSkillIds;
+                return RedirectToAction("UserProfile");
             }
-
-            // List of skills for checklist labels and values of View
-            List<Skill> skills = _context.Skills.Where(x => x.Vote >= 5).ToList();
-            return View(skills);
         }
 
         // Returns View : confirms that you saved your skills to the current user

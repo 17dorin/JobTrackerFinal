@@ -1,5 +1,7 @@
 ﻿@model AspNetUser
 
+
+
 <form method="post" asp-controller="Users" asp-action="EditUserProfile">
 
     @Html.HiddenFor(x => x.Id)
@@ -30,12 +32,31 @@
         <a href="/Users/Skills">Edit Skills</a>
         <br />
     }
-<label for="IsPrivate">Private Profile </label>
-    <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" />
-    <br />
+
+   
+        @if (Model.IsPrivate.ToString() == null || Model.IsPrivate == false)
+        {
+            <label for="IsPrivate">Private Profile </label>
+            <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" />
+            <br />
+            <br />
+        }
+        else if (Model.IsPrivate == true)
+        {
+            <label for="IsPrivate">Private Profile </label>
+            <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" checked />
+            <br />
+            <br />
+        }
+    
+
+
+
+
 
 
     <input type="submit" value="Save Changes" />
 
 
 </form>
+
