@@ -16,6 +16,10 @@ else if (@TempData["action"].ToString() == "update")
 {
     <h2>Job successfully updated.</h2>
 }
+else if (TempData["action"].ToString() == "markasresponded")
+{
+    <h2>Job marked as response received</h2>
+}
 
 <div>
     <a asp-action="Index">Back to List</a>

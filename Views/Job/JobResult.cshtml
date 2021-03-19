@@ -1,0 +1,44 @@
+﻿@model Job
+
+<h2>What was the result of your application?</h2>
+
+<p>
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="JobResult">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Responded"></label><br />
+                    <select asp-for="Responded" name="Responded" class="form-control">
+                        <option value="True">Yes</option>
+                        <option value="False">No</option>
+                    </select>
+                </div>
+
+                @* Add Result *@
+                @*<div class="form-group">
+                    <label asp-for="Result"></label><br />
+                    <select asp-for="Result" name="Result" class="form-control">
+                        <option value="True">Yes</option>
+                        <option value="False">No</option>
+                    </select>
+                </div>*@
+                @Html.HiddenFor(x => x.Company)
+                @Html.HiddenFor(x => x.Position)
+                @Html.HiddenFor(x => x.Contact)
+                @Html.HiddenFor(x => x.Method)
+                @Html.HiddenFor(x => x.DateOfApplication)
+                @Html.HiddenFor(x => x.Link)
+                @Html.HiddenFor(x => x.FollowUp)
+                @Html.HiddenFor(x => x.CompanySite)
+                @Html.HiddenFor(x => x.Id)
+                @Html.HiddenFor(x => x.UserId)
+                @Html.HiddenFor(x => x.User)
+                @Html.HiddenFor(x => x.Notes)
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary btn-" />
+                </div>
+            </form>
+        </div>
+    </div>
+</p>
