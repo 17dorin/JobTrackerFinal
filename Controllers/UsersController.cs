@@ -89,10 +89,18 @@ namespace FinalProject.Controllers
             return View(a);
         }
         [HttpPost]
-        public IActionResult EditUserProfile(AspNetUser a)
+        public IActionResult EditUserProfile(AspNetUser a, bool IsPrivate)
         {
             if (ModelState.IsValid)
             {
+                if(IsPrivate == false)
+                {
+                    a.IsPrivate = false;
+                }
+                else
+                {
+                    a.IsPrivate = true;
+                }
                 _context.AspNetUsers.Update(a);
                 _context.SaveChanges();
             }

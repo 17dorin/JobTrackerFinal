@@ -14,6 +14,8 @@ namespace FinalProject.Models
         public string Biography { get; set; }
         public string GitHub { get; set; }
         public string LinkedIn { get; set; }
+        public bool? IsEmployer { get; set; }
+        public bool? IsPrivate { get; set; } 
 
         public List<Skill> skills { get; set; }
 
@@ -27,6 +29,8 @@ namespace FinalProject.Models
             this.Biography = user.Biography;
             this.GitHub = user.GitHub;
             this.LinkedIn = user.LinkedIn;
+            this.IsEmployer = user.IsEmployer;
+            this.IsPrivate = user.IsPrivate;
         }
     }
 }

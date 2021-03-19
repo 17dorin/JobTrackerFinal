@@ -24,8 +24,15 @@
     <p>Bio: @Html.EditorFor(x => x.Biography)</p>
     <p>Phone: @Html.EditorFor(x => x.PhoneNumber)</p>
     <br />
-    <a href="/Users/Skills">Edit Skills</a>
-    <br/>
+
+    @if (Model.IsEmployer == true)
+    {
+        <a href="/Users/Skills">Edit Skills</a>
+        <br />
+    }
+<label for="IsPrivate">Private Profile </label>
+    <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" />
+    <br />
 
 
     <input type="submit" value="Save Changes" />

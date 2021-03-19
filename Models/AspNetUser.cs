@@ -15,6 +15,7 @@ namespace FinalProject.Models
             AspNetUserTokens = new HashSet<AspNetUserToken>();
             Jobs = new HashSet<Job>();
             UserSkills = new HashSet<UserSkill>();
+
         }
 
         public string Id { get; set; }
