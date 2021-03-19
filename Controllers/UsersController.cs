@@ -130,7 +130,8 @@ namespace FinalProject.Controllers
         {
             AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (a.IsEmployer == false)
+
+            if (a.IsEmployer != true)
             {
                 // Obtain all skills current user already has/checked from UserSkills table
                 List<UserSkill> existingSkills = _context.UserSkills
@@ -144,6 +145,8 @@ namespace FinalProject.Controllers
                     existingSkillIds.Add((int)skill.SkillId);
                 }
 
+                List<Skill> skills = _context.Skills.Where(x => x.Vote >= 5 || existingSkillIds.Contains(x.Id)).ToList();
+
                 // If user does not have any existing skills (newly registered users) then
                 // insert into a TempData
                 if (existingSkillIds.Count != 0)
@@ -152,17 +155,13 @@ namespace FinalProject.Controllers
                 }
 
                 // List of skills for checklist labels and values of View
-                List<Skill> skills = _context.Skills.Where(x => x.Vote >= 5).ToList();
+                skills = _context.Skills.Where(x => x.Vote >= 5).ToList();
                 return View(skills);
             }
             else
             {
                 return RedirectToAction("UserProfile");
             }
-
-            // List of skills for checklist labels and values of View
-            List<Skill> skills = _context.Skills.Where(x => x.Vote >= 5 || existingSkillIds.Contains(x.Id)).ToList();
-            return View(skills);
 
         }
 
