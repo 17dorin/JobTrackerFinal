@@ -33,7 +33,8 @@ namespace FinalProject.Models
         // Convert given json reponse (string) and deserialize into a Rootobject object
         public Rootobject SearchJobs(string country, int page, string what, string where)
         {
-            string json = GetData(country, page, what, where);
+            string trimmedWhat = what.Trim().Trim('+');
+            string json = GetData(country, page, trimmedWhat, where);
             Rootobject j = JsonConvert.DeserializeObject<Rootobject>(json);
             return j;
 

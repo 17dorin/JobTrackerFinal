@@ -35,8 +35,25 @@ namespace FinalProject.Controllers
         public IActionResult Search(string country, string what, string where, int page = 1)
         {
             //Encodes any special characters in the search string, then gets data from the API and puts it in a results list
-            string encodedWhat = WebUtility.UrlEncode(what);
-            string encodedWhere = WebUtility.UrlEncode(where);
+            string encodedWhat;
+            if (what.Contains('%'))
+            {
+                encodedWhat = what;
+            }
+            else
+            {
+                encodedWhat = WebUtility.UrlEncode(what);
+            }
+
+            string encodedWhere;
+            if (where.Contains('%'))
+            {
+                encodedWhere = where;
+            }
+            else
+            {
+                encodedWhere = WebUtility.UrlEncode(where);
+            }
             Rootobject r = jd.SearchJobs(country.ToLower(), page, encodedWhat, encodedWhere);
             List<Result> jobResults = r.results.ToList();
 
