@@ -1,0 +1,41 @@
+﻿@model List<Chat>
+
+
+@{ 
+    string senderId = TempData["senderId"].ToString();
+    string receiverId = TempData["receiverId"].ToString();
+    string sender = TempData["sender"].ToString();
+    string receiver = TempData["receiver"].ToString();
+}
+
+<h4>Conversation with @receiver :</h4>
+
+<div style="margin-right:200px; margin-left:100px">
+    @foreach (Chat c in Model)
+    {
+        if (c.Sender == senderId)
+        {
+            <div style="text-align:right;">
+                <p><strong>You</strong></p>
+                <p><i>@c.Message</i></p>
+            </div>
+        }
+        if (c.Sender == receiverId)
+        {
+            <div style="text-align:left;">
+                <p><strong>@receiver</strong></p>
+                <p><i>@c.Message</i></p>
+            </div>
+        }
+        <br />
+        <br />
+    }
+</div>
+
+<div style="text-align:right" style="margin-right:200px; margin-left:100px">
+    <form method="post" asp-action="SendMessage" asp-controller="Chat" asp-route-receiverId="@TempData["receiverId"]">
+        <label>Send Message:</label>
+        <input type="text" name="message" />
+        <input type="submit" />
+    </form>
+</div>
