@@ -33,7 +33,7 @@ namespace FinalProject.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=gc-jobtracker.database.windows.net;Database=FinalProject;Trusted_Connection=False; Encrypt=True; User ID=user-jobtracker;Password=GrandCircu$");
+                optionsBuilder.UseSqlServer("Data Source=gc-jobtracker.database.windows.net;Initial Catalog=FinalProject;Persist Security Info=True;User ID=user-jobtracker;Password=GrandCircu$;Trusted_Connection=False;");
             }
         }
 
@@ -156,7 +156,7 @@ namespace FinalProject.Models
 
                 entity.Property(e => e.FollowUp).HasColumnType("date");
 
-                entity.Property(e => e.Link).HasMaxLength(100);
+                entity.Property(e => e.Link).HasMaxLength(200);
 
                 entity.Property(e => e.Method).HasMaxLength(40);
 

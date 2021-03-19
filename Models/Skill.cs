@@ -14,6 +14,7 @@ namespace FinalProject.Models
 
         public int Id { get; set; }
         public string Skill1 { get; set; }
+        public int? Vote { get; set; }
 
         public virtual ICollection<UserSkill> UserSkills { get; set; }
     }
