@@ -52,9 +52,15 @@ namespace FinalProject.Helpers
 
             foreach(Skill s in skills)
             {
-                encodedCharacter = WebUtility.UrlEncode(s.Skill1);
-                encodedWhat = String.Join(' ', encodedWhat, encodedCharacter);
+                encodedWhat = String.Join(' ', encodedWhat, s.Skill1);
             }
+
+            if(encodedWhat.Contains('%'))
+            {
+                return encodedWhat;
+            }
+
+            encodedWhat = WebUtility.UrlEncode(encodedWhat);
 
             return encodedWhat;
         }
