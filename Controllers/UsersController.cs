@@ -122,7 +122,7 @@ namespace FinalProject.Controllers
             }
 
             // List of skills for checklist labels and values of View
-            List<Skill> skills = _context.Skills.ToList();
+            List<Skill> skills = _context.Skills.Where(x => x.Vote >= 5).ToList();
             return View(skills);
         }
 
@@ -163,6 +163,28 @@ namespace FinalProject.Controllers
 
             _context.SaveChanges();
             return View();
+        }
+
+        public IActionResult VoteSkill(string SkillToAdd)
+        {
+            if(_context.Skills.Where(x => x.Skill1.ToLower() == SkillToAdd.ToLower()).ToList().Count < 1)
+            {
+                Skill toAdd = new Skill();
+                toAdd.Skill1 = SkillToAdd;
+                toAdd.Vote = 1;
+                _context.Skills.Add(toAdd);
+                _context.SaveChanges();
+            }
+            else
+            {
+                var toVote = _context.Skills.Where(x => x.Skill1.ToLower() == SkillToAdd.ToLower()).ToList();
+                foreach(Skill s in toVote)
+                {
+                    s.Vote += 1;
+                }
+                _context.SaveChanges();
+            }
+            return View("AddSkills");
         }
     }
 }

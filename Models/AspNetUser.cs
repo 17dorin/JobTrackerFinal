@@ -36,6 +36,8 @@ namespace FinalProject.Models
         public string Location { get; set; }
         public string GitHub { get; set; }
         public string LinkedIn { get; set; }
+        public bool? IsEmployer { get; set; }
+        public bool? IsPrivate { get; set; }
 
         public virtual ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
         public virtual ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
