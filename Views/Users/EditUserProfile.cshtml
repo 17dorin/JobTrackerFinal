@@ -1,9 +1,10 @@
 ﻿@model AspNetUser
 
+
+
 <form method="post" asp-controller="Users" asp-action="EditUserProfile">
 
     @Html.HiddenFor(x => x.Id)
-    @Html.HiddenFor(x => x.UserName)
     @Html.HiddenFor(x => x.NormalizedUserName)
     @Html.HiddenFor(x => x.Email)
     @Html.HiddenFor(x => x.NormalizedEmail)
@@ -18,17 +19,44 @@
     @Html.HiddenFor(x => x.AccessFailedCount)
     @Html.HiddenFor(x => x.NormalizedUserName)
 
+    <p>Name: @Html.EditorFor(x => x.UserName)</p>
     <p>Location: @Html.EditorFor(x => x.Location)</p>
     <p>LinkedIn UserName: @Html.EditorFor(x => x.LinkedIn)</p>
     <p>GitHub UserName: @Html.EditorFor(x => x.GitHub)</p>
     <p>Bio: @Html.EditorFor(x => x.Biography)</p>
     <p>Phone: @Html.EditorFor(x => x.PhoneNumber)</p>
     <br />
-    <a href="/Users/Skills">Edit Skills</a>
-    <br/>
+
+    @if (Model.IsEmployer == false)
+    {
+        <a href="/Users/Skills">Edit Skills</a>
+        <br />
+    }
+
+   
+        @if (Model.IsPrivate.ToString() == null || Model.IsPrivate == false)
+        {
+            <label for="IsPrivate">Private Profile </label>
+            <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" />
+            <br />
+            <br />
+        }
+        else if (Model.IsPrivate == true)
+        {
+            <label for="IsPrivate">Private Profile </label>
+            <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" checked />
+            <br />
+            <br />
+        }
+    
+
+
+
+
 
 
     <input type="submit" value="Save Changes" />
 
 
 </form>
+
