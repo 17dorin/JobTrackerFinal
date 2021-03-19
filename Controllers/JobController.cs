@@ -226,6 +226,8 @@ namespace FinalProject.Controllers
                 // Ensuring job.UserId is set to the UserId of logged in user
                 job.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+                job.FollowUp = DateTime.Now.AddDays(2);
+
                 // Add job and save changes in database
                 _context.Add(job);
                 await _context.SaveChangesAsync();

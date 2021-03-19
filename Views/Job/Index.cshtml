@@ -17,84 +17,231 @@
 else
 {
     <p>
-        
-        Jobs that you save from your job searches will be saved here. <br />
-        Jobs can also be manually added via the <a href="Job/Add">add job page.</a>
-    
+        Jobs that you save from your job searches will be saved here.
     </p>
 
-<h3>Displaying all tracked jobs</h3>
+    <p>
+        Jobs can also be manually added via the <a href="Job/Add">add job page.</a>
+    </p>
 
-@foreach (Job j in Model)
-{
-    <div>
-        <hr />
-        <dl class="flex-xl-row">
-            <dt class="d-flex">
-                @Html.Label("Company", "Company name:")
-            </dt>
-            <dd class="d-flex">
-                @Html.DisplayFor(Job => j.Company)
-            </dd>
-            <dt class="d-flex">
-                @Html.DisplayNameFor(Job => j.Position)
-            </dt>
-            <dd class="d-flex">
-                @Html.DisplayFor(Job => j.Position)
-            </dd>
-            <dt class="d-flex">
-                @Html.DisplayNameFor(Job => j.Contact)
-            </dt>
-            <dd class="d-flex">
-                @Html.DisplayFor(Job => j.Contact)
-            </dd>
-            <dt class="d-flex">
-                @Html.Label("Method", "Application method:")
-            </dt>
-            <dd class="d-flex">
-                @Html.DisplayFor(Job => j.Method)
-            </dd>
-            <dt class="d-flex">
-                @Html.Label("DateOfApplication", "Date saved:")
-            </dt>
-            <dd class="d-flex">
-                @Html.DisplayFor(Job => j.DateOfApplication)
-            </dd>
-            <dt class="d-flex">
-                @Html.Label("Link", "Link to job posting:")
-            </dt>
-            <dd class="d-flex">
-                <a href="@Html.DisplayFor(Job => j.Link)">@Html.DisplayFor(Job => j.Link)</a>
-            </dd>
-            <dt class="d-flex">
-                @Html.Label("FollowUp", "Next follow up date:")
-            </dt>
-            <dd class="d-flex">
-                @Html.DisplayFor(Job => j.FollowUp)
-            </dd>
-            <dt class="d-flex">
-                @Html.Label("CompanySite", "Company website:")
-            </dt>
-            <dd class="d-flex">
-                @Html.DisplayFor(Job => j.CompanySite)
-            </dd>
-            <dt class="d-flex">
-                @Html.Label("Responded", "Received response?")
-            </dt>
-            <dd class="d-flex">
-                @Html.DisplayFor(Job => j.Responded)
-            </dd>
-            <dt class="d-flex">
-                @Html.DisplayNameFor(Job => j.Notes)
-            </dt>
-            <dd class="d-flex">
-                @Html.DisplayFor(Job => j.Notes)
-            </dd>
-        </dl>
+    <button type="button" data-hc-control="parentContent0" class="collapsible">
+        Jobs Needing Follow Up
+    </button>
+    <div data-hc-content="parentContent0" class="content">
+        @foreach (Job j in Model)
+        {
+            if (j.Responded == false && j.FollowUp <= DateTime.Now.AddDays(-1))
+            {
+                <button type="button" data-hc-control="@("childContent0" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
+                <div data-hc-content="@("childContent0" + j.Id)" class="content">
+                    <dl class="flex-xl-row">
+                        <dt class="d-flex">
+                            @Html.DisplayNameFor(Company => j.Company)
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Company => j.Company)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.DisplayNameFor(Job => j.Position)
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.Position)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.DisplayNameFor(Job => j.Contact)
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.Contact)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("Method", "Application method:")
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.Method)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("DateOfApplication", "Date saved:")
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.DateOfApplication);
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("Link", "Link to job posting:")
+                        </dt>
+                        <dd class="d-flex">
+                            <a href="@Html.DisplayFor(Job => j.Link)">@Html.DisplayFor(Job => j.Link)</a>
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("FollowUp", "Next follow up date:")
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.FollowUp)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("CompanySite", "Company website:")
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.CompanySite)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.DisplayNameFor(Job => j.Notes)
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.Notes)
+                        </dd>
+                    </dl>
+                    <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
+                    <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a>
+                    <br />
+                </div>
+            }
+        }
     </div>
-    <div>
-        <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
-        <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a>
+
+    <button type="button" data-hc-control="parentContent1" class="collapsible">
+        Jobs Without a Response
+    </button>
+    <div data-hc-content="parentContent1" class="content">
+        @foreach (Job j in Model)
+        {
+            if (j.Responded == false)
+            {
+                <button type="button" data-hc-control="@("childContent1" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
+                <div data-hc-content="@("childContent1" + j.Id)" class="content">
+                    <dl class="flex-xl-row">
+                        <dt class="d-flex">
+                            @Html.DisplayNameFor(Company => j.Company)
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Company => j.Company)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.DisplayNameFor(Job => j.Position)
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.Position)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.DisplayNameFor(Job => j.Contact)
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.Contact)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("Method", "Application method:")
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.Method)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("DateOfApplication", "Date saved:")
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.DateOfApplication);
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("Link", "Link to job posting:")
+                        </dt>
+                        <dd class="d-flex">
+                            <a href="@Html.DisplayFor(Job => j.Link)">@Html.DisplayFor(Job => j.Link)</a>
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("FollowUp", "Next follow up date:")
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.FollowUp)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.Label("CompanySite", "Company website:")
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.CompanySite)
+                        </dd>
+                        <dt class="d-flex">
+                            @Html.DisplayNameFor(Job => j.Notes)
+                        </dt>
+                        <dd class="d-flex">
+                            @Html.DisplayFor(Job => j.Notes)
+                        </dd>
+                    </dl>
+                    <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
+                    <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a>
+                    <br />
+                </div>
+            }
+        }
     </div>
-}
+
+
+
+    <button type="button" data-hc-control="parentContent2" class="collapsible">
+        All Jobs
+    </button>
+    <div data-hc-content="parentContent2" class="content">
+        @foreach (Job j in Model)
+        {
+            <button type="button" data-hc-control="@("childContent2" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
+            <div data-hc-content="@("childContent2" + j.Id)" class="content">
+                <dl class="flex-xl-row">
+                    <dt class="d-flex">
+                        @Html.DisplayNameFor(Company => j.Company)
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Company => j.Company)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.DisplayNameFor(Job => j.Position)
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.Position)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.DisplayNameFor(Job => j.Contact)
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.Contact)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("Method", "Application method:")
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.Method)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("DateOfApplication", "Date saved:")
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.DateOfApplication);
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("Link", "Link to job posting:")
+                    </dt>
+                    <dd class="d-flex">
+                        <a href="@Html.DisplayFor(Job => j.Link)">@Html.DisplayFor(Job => j.Link)</a>
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("FollowUp", "Next follow up date:")
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.FollowUp)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("CompanySite", "Company website:")
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.CompanySite)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.DisplayNameFor(Job => j.Notes)
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.Notes)
+                    </dd>
+                </dl>
+                <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
+                <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a> |
+                <br />
+            </div>
+        }
+    </div>
 }
