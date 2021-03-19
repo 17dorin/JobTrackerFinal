@@ -31,3 +31,9 @@
     <a href="/Users/EditUserProfile">Edit Profile</a>
     <br />
 }
+else
+{
+    <br />
+    <a asp-action="Chat" asp-controller="Chat" asp-route-receiverId="@Model.UserId">Send Message</a>
+    <br />
+}

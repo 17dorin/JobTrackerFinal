@@ -24,6 +24,7 @@ namespace FinalProject.Models
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+        public virtual DbSet<Chat> Chats { get; set; }
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<UserSkill> UserSkills { get; set; }
@@ -142,6 +143,17 @@ namespace FinalProject.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.AspNetUserTokens)
                     .HasForeignKey(d => d.UserId);
+            });
+
+            modelBuilder.Entity<Chat>(entity =>
+            {
+                entity.ToTable("Chat");
+
+                entity.Property(e => e.Message).HasMaxLength(280);
+
+                entity.Property(e => e.Receiver).HasMaxLength(450);
+
+                entity.Property(e => e.Sender).HasMaxLength(450);
             });
 
             modelBuilder.Entity<Job>(entity =>

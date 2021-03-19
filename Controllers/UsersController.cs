@@ -159,6 +159,11 @@ namespace FinalProject.Controllers
             {
                 return RedirectToAction("UserProfile");
             }
+
+            // List of skills for checklist labels and values of View
+            List<Skill> skills = _context.Skills.Where(x => x.Vote >= 5 || existingSkillIds.Contains(x.Id)).ToList();
+            return View(skills);
+
         }
 
         // Returns View : confirms that you saved your skills to the current user
@@ -187,14 +192,27 @@ namespace FinalProject.Controllers
 
             // Check if skill is unchecked, if it is unchecked but skill is in UserSkills table, remove it
             var check2 = _context.UserSkills.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList();
+
             foreach(UserSkill u in check2)
             {
                 // If you cannot find skill in UserSkills table, remove it
                 if (skillId.IndexOf((int)u.SkillId) == -1)
                 {
                     _context.UserSkills.Remove(u);
+                    Skill s = _context.Skills.Where(x => x.Id == u.SkillId).ToList()[0];
+
+                    if (s.Vote < 5 && s.Vote > 0)
+                    {
+                        s.Vote--;
+                        if(s.Vote == 0)
+                        {
+                            _context.Remove(s);
+                        }
+                        _context.SaveChanges();
+                    }
                 }
             }
+
 
             _context.SaveChanges();
             return View();
@@ -209,13 +227,29 @@ namespace FinalProject.Controllers
                 toAdd.Vote = 1;
                 _context.Skills.Add(toAdd);
                 _context.SaveChanges();
+
+                UserSkill u = new UserSkill();
+                u.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                u.SkillId = _context.Skills.Where(x => x.Skill1.ToLower() == SkillToAdd.ToLower()).Select(x => x.Id).ToList()[0];
+
+                _context.UserSkills.Add(u);
+                _context.SaveChanges();
             }
             else
             {
                 var toVote = _context.Skills.Where(x => x.Skill1.ToLower() == SkillToAdd.ToLower()).ToList();
                 foreach(Skill s in toVote)
                 {
-                    s.Vote += 1;
+                    if(!_context.UserSkills.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList().Select(x => x.SkillId).Contains(s.Id))
+                    {
+                        s.Vote += 1;
+                        UserSkill u = new UserSkill();
+                        u.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                        u.SkillId = _context.Skills.Where(x => x.Skill1.ToLower() == SkillToAdd.ToLower()).Select(x => x.Id).ToList()[0];
+
+                        _context.UserSkills.Add(u);
+                        _context.SaveChanges();
+                    }
                 }
                 _context.SaveChanges();
             }
