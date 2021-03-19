@@ -24,6 +24,78 @@ else
         Jobs can also be manually added via the <a href="Job/Add">add job page.</a>
     </p>
 
+    <h3>Jobs needing follow up</h3>
+
+    @foreach (Job j in Model)
+    {
+        if (j.Responded == false && j.FollowUp <= DateTime.Now.AddDays(-1))
+        {
+            <button type="button" class="collapsible">@j.Company - @j.Position</button>
+            <div class="content">
+                <dl class="flex-xl-row">
+                    <dt class="d-flex">
+                        @Html.DisplayNameFor(Company => j.Company)
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Company => j.Company)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.DisplayNameFor(Job => j.Position)
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.Position)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.DisplayNameFor(Job => j.Contact)
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.Contact)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("Method", "Application method:")
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.Method)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("DateOfApplication", "Date saved:")
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.DateOfApplication);
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("Link", "Link to job posting:")
+                    </dt>
+                    <dd class="d-flex">
+                        <a href="@Html.DisplayFor(Job => j.Link)">@Html.DisplayFor(Job => j.Link)</a>
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("FollowUp", "Next follow up date:")
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.FollowUp)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.Label("CompanySite", "Company website:")
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.CompanySite)
+                    </dd>
+                    <dt class="d-flex">
+                        @Html.DisplayNameFor(Job => j.Notes)
+                    </dt>
+                    <dd class="d-flex">
+                        @Html.DisplayFor(Job => j.Notes)
+                    </dd>
+                </dl>
+                <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
+                <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a> |
+                <a asp-action="JobResult" asp-route-id="@j.Id"><button class="btn btn-dark"></button></a>
+                <br />
+            </div>
+        }
+    }
+
     <h3>Jobs without a response</h3>
 
     @foreach (Job j in Model)
@@ -61,7 +133,7 @@ else
                         @Html.Label("DateOfApplication", "Date saved:")
                     </dt>
                     <dd class="d-flex">
-                        @Html.DisplayFor(Job => j.DateOfApplication)
+                        @Html.DisplayFor(Job => j.DateOfApplication);
                     </dd>
                     <dt class="d-flex">
                         @Html.Label("Link", "Link to job posting:")

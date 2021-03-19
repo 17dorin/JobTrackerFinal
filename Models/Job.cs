@@ -23,6 +23,7 @@ namespace FinalProject.Models
 
         public static Job ToJob(Result raw)
         {
+
             Job j = new Job();
             j.Company = TextHelper.RemoveHTML(raw.company.display_name);
             j.Position = TextHelper.RemoveHTML(raw.title);
@@ -30,7 +31,7 @@ namespace FinalProject.Models
             j.Method = "Through Job Ad";
             j.DateOfApplication = DateTime.Now;
             j.Link = raw.redirect_url;
-            j.FollowUp = null;
+            j.FollowUp = DateTime.Now.AddDays(2);
             j.CompanySite = null;
             j.Responded = false;
             j.Notes = "None";

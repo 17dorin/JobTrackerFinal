@@ -226,6 +226,8 @@ namespace FinalProject.Controllers
                 // Ensuring job.UserId is set to the UserId of logged in user
                 job.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
+                job.FollowUp = DateTime.Now.AddDays(2);
+
                 // Add job and save changes in database
                 _context.Add(job);
                 await _context.SaveChangesAsync();
@@ -330,63 +332,6 @@ namespace FinalProject.Controllers
 
                 // Storing action name within tempdata to customize the success page
                 TempData["action"] = "update";
-                return RedirectToAction("Success", job);
-            }
-            return View(job);
-        }
-
-        public IActionResult JobResult(int? id)
-        {
-            // Validation returning a 404 if no id passed to controller
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            // Creates job based on passed in id
-            var job = _context.Jobs.Find(id);
-
-            // If job is empty after pulling from db return 404
-            if (job == null)
-            {
-                return NotFound();
-            }
-            return View(job);
-        }
-
-        [HttpPost]
-        public IActionResult JobResult(int id, [Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
-        {
-            // Validation ensuring the passed in id matches job's Id
-            if (id != job.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    // Update database with job values that were passed in
-                    _context.Jobs.Update(job);
-                    _context.SaveChanges();
-                }
-
-                // If the above SaveChanges returns no rows updated we'll throw an exception
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!JobExists(job.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                // Storing action name within tempdata to customize the success page
-                TempData["action"] = "markasresponded";
                 return RedirectToAction("Success", job);
             }
             return View(job);
