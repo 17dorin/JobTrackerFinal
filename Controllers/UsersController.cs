@@ -23,35 +23,53 @@ namespace FinalProject.Controllers
         }
 
         //Returns a view containing all skills in our DB to search by
-        public IActionResult SearchUsers()
+        public IActionResult SearchUsers(AspNetUser a)
         {
-            List<Skill> skills = _context.Skills.ToList();
+            a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            return View(skills);
+            if (a.IsEmployer == true)
+            {
+                List<Skill> skills = _context.Skills.ToList();
+
+                return View(skills);
+            }
+            else
+            {
+                return RedirectToAction("UserProfile");
+            }
         }
         [HttpPost]
         //Displays a list of all users that match the skills searched by
-        public IActionResult SearchUsers(List<int> skillId)
+        public IActionResult SearchUsers(List<int> skillId, AspNetUser a)
         {
-            //Gets all unique userIds that are paired with any of the passed skillIds in our UserSkills table
-            List<string> matchingUserIds = _context.UserSkills.Where(x => skillId.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
-            //Gets all matching users based off of userIds
-            List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id)).ToList();
+            a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
-            //Makes a View Model for each AspNetUser that matched
-            foreach(AspNetUser u in matchingUsers)
+            if (a.IsEmployer == true)
             {
-                //Gets the IDs of the skills the user has
-                List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == u.Id).Select(x => x.SkillId).ToList();
-                //Gets a list of skills based off of those IDs
-                List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
-                //Constructs model, consisting of the list of skills and non-sensitive information from our AspNetUsers table
-                ProfileViewModel p = new ProfileViewModel(u, skills);
-                //Add to results list
-                profileResults.Add(p);
+                //Gets all unique userIds that are paired with any of the passed skillIds in our UserSkills table
+                List<string> matchingUserIds = _context.UserSkills.Where(x => skillId.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
+                //Gets all matching users based off of userIds
+                List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id)&& x.IsPrivate == false).ToList();
+
+                List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
+                //Makes a View Model for each AspNetUser that matched
+                foreach (AspNetUser u in matchingUsers)
+                {
+                    //Gets the IDs of the skills the user has
+                    List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == u.Id).Select(x => x.SkillId).ToList();
+                    //Gets a list of skills based off of those IDs
+                    List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
+                    //Constructs model, consisting of the list of skills and non-sensitive information from our AspNetUsers table
+                    ProfileViewModel p = new ProfileViewModel(u, skills);
+                    //Add to results list
+                    profileResults.Add(p);
+                }
+                return View("SearchUsersResults", profileResults);
             }
-            return View("SearchUsersResults", profileResults);
+            else
+            {
+                return View("Index");
+            }
         }
 
         //Displays information about the user
@@ -65,7 +83,6 @@ namespace FinalProject.Controllers
             List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
             //Makes a view model, consisting of the list of skills and the currently logged in AspNetUser
             ProfileViewModel pvm = new ProfileViewModel(_context.AspNetUsers.Where(x => x.Id == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList()[0], skills);
-
             return View(pvm);
         }
 
