@@ -108,9 +108,11 @@ namespace FinalProject.Controllers
         [HttpPost]
         public IActionResult EditUserProfile(AspNetUser a, bool IsPrivate)
         {
+            a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             if (ModelState.IsValid)
             {
+
                 if(IsPrivate == false)
                 {
                     a.IsPrivate = false;
@@ -119,12 +121,43 @@ namespace FinalProject.Controllers
                 {
                     a.IsPrivate = true;
                 }
+
                 _context.AspNetUsers.Update(a);
                 _context.SaveChanges();
             }
-            return RedirectToAction("UserProfile");
+            if (a.IsEmployer == false && a.UserSkills.Count <= 0)
+            {
+                return RedirectToAction("Skills");
+            }
+            else
+            {
+                return RedirectToAction("Skills");
+            }
         }
+        public IActionResult EmployerCheck()
+        {
+            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return View(a);
+        }
+        [HttpPost]
+        public IActionResult EmployerCheck(AspNetUser a, bool IsEmployer)
+        {
 
+            if (ModelState.IsValid)
+            {
+                if (IsEmployer == false)
+                {
+                    a.IsEmployer = false;
+                }
+                else
+                {
+                    a.IsEmployer = true;
+                }
+                _context.AspNetUsers.Update(a);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("EditUserProfile");
+        }
         // Returns View : Routes a List of Skills into the list
         public IActionResult Skills()
         {

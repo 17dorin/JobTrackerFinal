@@ -18,6 +18,8 @@
     @Html.HiddenFor(x => x.LockoutEnd)
     @Html.HiddenFor(x => x.AccessFailedCount)
     @Html.HiddenFor(x => x.NormalizedUserName)
+    @Html.HiddenFor(x => x.IsPrivate)
+
 
     <p>Name: @Html.EditorFor(x => x.UserName)</p>
     <p>Location: @Html.EditorFor(x => x.Location)</p>
@@ -33,22 +35,29 @@
         <br />
     }
 
-   
-        @if (Model.IsPrivate.ToString() == null || Model.IsPrivate == false)
-        {
-            <label for="IsPrivate">Private Profile </label>
-            <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" />
-            <br />
-            <br />
-        }
-        else if (Model.IsPrivate == true)
-        {
-            <label for="IsPrivate">Private Profile </label>
-            <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" checked />
-            <br />
-            <br />
-        }
-    
+
+    @if (Model.IsPrivate == null || Model.IsPrivate == false)
+    {
+        <label for="IsPrivate">Private Profile </label>
+        <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" />
+        <br />
+        <br />
+    }
+    else if (Model.IsPrivate == true)
+    {
+        <label for="IsPrivate">Private Profile </label>
+        <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" checked />
+        <br />
+        <br />
+    }
+    @*@if (Model.IsEmployer == null)
+    {
+        <label for="IsEmployer">Is this an Employer Profile (Cannot be undone)</label>
+        <input id="IsEmployer" type="checkbox" name="IsEmployer" value="true" />
+        <br />
+        <br />
+    }*@
+
 
 
 
