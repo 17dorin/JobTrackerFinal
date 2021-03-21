@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +15,9 @@ namespace FinalProject.Models
         public string Biography { get; set; }
         public string GitHub { get; set; }
         public string LinkedIn { get; set; }
+        [Required]
         public bool? IsEmployer { get; set; }
-        public bool? IsPrivate { get; set; } 
+        public bool? IsPrivate { get; set; }
 
         public string UserName { get; set; }
 

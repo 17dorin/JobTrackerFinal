@@ -6,8 +6,14 @@
 
     @if (Model.IsEmployer == null)
     {
-        <label for="IsEmployer">Is this an Employer Profile (Cannot be undone)</label>
-        <input id="IsEmployer" type="checkbox" name="IsEmployer" value="true" />
+    <label>Are you an Employer or a Job Seeker? (Account type cannot be changed)</label>
+    <br />
+        <input id="Job Seeker" type="radio" name="IsEmployer" value="false" />
+        <label for="Job Seeker">Job Seeker</label>
+        <br />
+        <input id="Employer" type="radio" name="IsEmployer" value="true" />
+        <label for="Employer">Employer</label>
+
         <br />
         <br />
     }
@@ -31,7 +37,7 @@
     @Html.HiddenFor(x => x.GitHub)
     @Html.HiddenFor(x => x.Biography)
     @Html.HiddenFor(x => x.PhoneNumber)
-    
+
 
 
     <input type="submit" value="Save Changes" />

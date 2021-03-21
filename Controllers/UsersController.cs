@@ -131,7 +131,7 @@ namespace FinalProject.Controllers
             }
             else
             {
-                return RedirectToAction("Skills");
+                return RedirectToAction("SearchUsers");
             }
         }
         public IActionResult EmployerCheck()
