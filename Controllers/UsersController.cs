@@ -68,7 +68,25 @@ namespace FinalProject.Controllers
             }
             else
             {
-                return View("Index");
+                //Gets all unique userIds that are paired with any of the passed skillIds in our UserSkills table
+                List<string> matchingUserIds = _context.AspNetUsers.Where(x => skillId.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
+                //Gets all matching users based off of userIds
+                List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id) && (x.IsPrivate == false) && (x.IsEmployer == false)).ToList();
+
+                List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
+                //Makes a View Model for each AspNetUser that matched
+                foreach (AspNetUser u in matchingUsers)
+                {
+                    //Gets the IDs of the skills the user has
+                    List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == u.Id).Select(x => x.SkillId).ToList();
+                    //Gets a list of skills based off of those IDs
+                    List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
+                    //Constructs model, consisting of the list of skills and non-sensitive information from our AspNetUsers table
+                    ProfileViewModel p = new ProfileViewModel(u, skills);
+                    //Add to results list
+                    profileResults.Add(p);
+                }
+                return View("SearchUserResults", profileResults);
             }
         }
 
