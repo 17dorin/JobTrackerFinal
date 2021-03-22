@@ -20,14 +20,28 @@
         {
             <div style="text-align:right;">
                 <p><strong>You</strong></p>
+<<<<<<< Updated upstream
                 <p><i>@c.Message</i></p>
+=======
+                <p>@c.TimeStamp.ToString()</p>
+                <div style="background-color:lightblue; padding: 10px 30px 5px 20px; border-radius:25px;" >
+                    <p><i>@c.Message</i></p>
+                </div>
+>>>>>>> Stashed changes
             </div>
         }
         if (c.Sender == receiverId)
         {
             <div style="text-align:left;">
                 <p><strong>@receiver</strong></p>
+<<<<<<< Updated upstream
                 <p><i>@c.Message</i></p>
+=======
+                <p>@c.TimeStamp.ToString()</p>
+                <div style="background-color:lightgray; padding: 10px 30px 5px 20px; border-radius:25px;">
+                    <p><i>@c.Message</i></p>
+                </div>
+>>>>>>> Stashed changes
             </div>
         }
         <br />

@@ -11,5 +11,6 @@ namespace FinalProject.Models
         public string Sender { get; set; }
         public string Receiver { get; set; }
         public string Message { get; set; }
+        public DateTime? TimeStamp { get; set; }
     }
 }

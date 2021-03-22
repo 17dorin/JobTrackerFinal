@@ -46,6 +46,7 @@ namespace FinalProject.Controllers
             newChat.Sender = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             newChat.Receiver = receiverId;
             newChat.Message = message;
+            newChat.TimeStamp = DateTime.Now;
             _context.Chats.Add(newChat);
             _context.SaveChanges();
 
