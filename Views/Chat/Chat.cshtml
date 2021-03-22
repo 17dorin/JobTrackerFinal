@@ -12,22 +12,28 @@
 }
 
 <h4>Conversation with <a asp-controller="Users" asp-action="UserProfileResult" asp-route-userId="@receiverId">@receiver</a>:</h4>
+<br />
+<br />
 
-<div style="margin-right:200px; margin-left:100px">
+<div>
     @foreach (Chat c in Model)
     {
         if (c.Sender == senderId)
         {
-            <div style="text-align:right;">
+            <div style="width: 300px; margin: auto 200px auto auto">
                 <p><strong>You</strong></p>
-                <p><i>@c.Message</i></p>
+                <div style="background-color:lightblue; padding: 10px 30px 5px 20px; border-radius:25px;" >
+                    <p><i>@c.Message</i></p>
+                </div>
             </div>
         }
         if (c.Sender == receiverId)
         {
-            <div style="text-align:left;">
+            <div style="width: 300px; margin: auto auto auto 100px">
                 <p><strong>@receiver</strong></p>
-                <p><i>@c.Message</i></p>
+                <div style="background-color:lightgray; padding: 10px 30px 5px 20px; border-radius:25px;">
+                    <p><i>@c.Message</i></p>
+                </div>
             </div>
         }
         <br />
@@ -35,10 +41,9 @@
     }
 </div>
 
-<div style="text-align:right" style="margin-right:200px; margin-left:100px">
+<div style="text-align:right; margin: auto 145px auto auto">
     <form method="post" asp-action="SendMessage" asp-controller="Chat" asp-route-receiverId="@TempData["receiverId"]">
-        <label>Send Message:</label>
-        <input type="text" name="message" />
-        <input type="submit" />
+        <textarea rows="4" cols="14" wrap="soft" type="text" name="message"  placeholder="Send Message..." style="width: 290px"></textarea>
+        <button type="submit" >Send</button>
     </form>
 </div>
