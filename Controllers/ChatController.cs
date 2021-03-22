@@ -65,8 +65,13 @@ namespace FinalProject.Controllers
         {
             List<string> conversationIds = _context.Chats.Where(x => x.Sender == User.FindFirst(ClaimTypes.NameIdentifier).Value)
                 .Select(x => x.Receiver).Distinct().ToList();
+            List<string> incomingIds = _context.Chats.Where(x => x.Receiver == User.FindFirst(ClaimTypes.NameIdentifier).Value)
+                .Select(x => x.Sender).Distinct().ToList();
 
-            List<AspNetUser> conversations = _context.AspNetUsers.Where(x => conversationIds.Contains(x.Id)).ToList();
+            conversationIds.AddRange(incomingIds);
+            conversationIds.Distinct();
+
+            List <AspNetUser> conversations = _context.AspNetUsers.Where(x => conversationIds.Contains(x.Id)).ToList();
 
             return View(conversations);
         }
