@@ -1,7 +1,10 @@
 ﻿@model List<Chat>
 
+@{
+    ViewData["Title"] = "Inbox";
+}
 
-@{ 
+@{
     string senderId = TempData["senderId"].ToString();
     string receiverId = TempData["receiverId"].ToString();
     string sender = TempData["sender"].ToString();

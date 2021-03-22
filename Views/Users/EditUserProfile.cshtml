@@ -1,5 +1,9 @@
 ﻿@model AspNetUser
 
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
 
 
 <form method="post" asp-controller="Users" asp-action="EditUserProfile">
@@ -33,22 +37,22 @@
         <br />
     }
 
-   
-        @if (Model.IsPrivate.ToString() == null || Model.IsPrivate == false)
-        {
-            <label for="IsPrivate">Private Profile </label>
-            <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" />
-            <br />
-            <br />
-        }
-        else if (Model.IsPrivate == true)
-        {
-            <label for="IsPrivate">Private Profile </label>
-            <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" checked />
-            <br />
-            <br />
-        }
-    
+
+    @if (Model.IsPrivate.ToString() == null || Model.IsPrivate == false)
+    {
+        <label for="IsPrivate">Private Profile </label>
+        <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" />
+        <br />
+        <br />
+    }
+    else if (Model.IsPrivate == true)
+    {
+        <label for="IsPrivate">Private Profile </label>
+        <input id="IsPrivate" type="checkbox" name="IsPrivate" value="true" checked />
+        <br />
+        <br />
+    }
+
 
 
 
