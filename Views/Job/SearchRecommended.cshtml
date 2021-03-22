@@ -1,11 +1,15 @@
-﻿<form asp-action="SearchRecommended" asp-controller="Job" method="post">
+﻿@{
+    ViewData["Title"] = "Search Recommended Jobs";
+}
+
+<form asp-action="SearchRecommended" asp-controller="Job" method="post">
     <label for="country">Country:</label>
     <select name="country" id="country">
         <option value="us">US</option>
     </select>
-    <br/>
+    <br />
 
     <label for="where">Where do you want a job?</label>
-    <input type="text" name="where" required pattern=".*\S+.*"/>
+    <input type="text" name="where" required pattern=".*\S+.*" />
     <input type="submit" />
 </form>

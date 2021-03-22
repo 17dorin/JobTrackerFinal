@@ -1,6 +1,10 @@
 ﻿@using System.Security.Claims;
 @model ProfileViewModel
 
+@{
+    ViewData["Title"] = "User Profile";
+}
+
 <p>Name: @Model.UserName</p>
 <p>Email: @Model.Email</p>
 <p>Phone: @Model.PhoneNumber</p>

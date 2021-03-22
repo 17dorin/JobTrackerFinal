@@ -1,5 +1,9 @@
 ﻿@model List<AspNetUser>
 
+@{
+    ViewData["Title"] = "Your Conversations";
+}
+
 <style>
     table {
         font-family: arial, sans-serif;
@@ -21,12 +25,12 @@
     <tr>
         <th><h4>Inbox:</h4></th>
     </tr>
-@foreach(AspNetUser a in Model)
-{
-    <tr>
-        <td><a asp-action="Chat" asp-controller="Chat" asp-route-receiverId="@a.Id">@a.UserName</a></td>
-    </tr>
-    <br />
-    <br />
-}
+    @foreach (AspNetUser a in Model)
+    {
+        <tr>
+            <td><a asp-action="Chat" asp-controller="Chat" asp-route-receiverId="@a.Id">@a.UserName</a></td>
+        </tr>
+        <br />
+        <br />
+    }
 </table>

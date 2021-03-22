@@ -1,5 +1,9 @@
 ﻿@model List<ProfileViewModel>
 
+@{
+    ViewData["Title"] = "Search User Results";
+}
+
 @foreach (ProfileViewModel p in Model)
 {
     <p>Email: @p.Email</p>

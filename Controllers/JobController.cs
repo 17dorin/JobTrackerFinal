@@ -156,7 +156,7 @@ namespace FinalProject.Controllers
 
         [Authorize]
         //This is the Action that clicking the "Add to favorites" link redirects to. Gets the result ID from the view as route data
-        public async Task<IActionResult> AddFromSearch(string id)
+        public IActionResult AddFromSearch(string id)
         {
             //Gets query parameters from TempData
             string country = TempData["country"].ToString();
@@ -219,7 +219,7 @@ namespace FinalProject.Controllers
 
         // Create/Add Job CRUD
         [HttpPost]
-        public async Task<IActionResult> Add([Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
+        public IActionResult Add([Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
         {
             if (ModelState.IsValid)
             {
@@ -230,7 +230,7 @@ namespace FinalProject.Controllers
 
                 // Add job and save changes in database
                 _context.Add(job);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
 
                 // Storing action name in TempData to customize Success page
                 TempData["action"] = "add";
@@ -240,7 +240,7 @@ namespace FinalProject.Controllers
         }
 
         // Renders delete view where job info is displayed to user and they're asked to confirm deletion
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             // Validation returning a 404 if no id passed to controller
             if (id == null)
@@ -249,8 +249,8 @@ namespace FinalProject.Controllers
             }
 
             // Created job based on output from database matching id passed to controller
-            var job = await _context.Jobs
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Job job = _context.Jobs
+                .FirstOrDefault(m => m.Id == id);
 
             // Returns 404 if no output from database
             if (job == null)
@@ -263,14 +263,14 @@ namespace FinalProject.Controllers
         // Remove/DELETE CRUD
         // Delete confirmation view posts to this action
         [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int id)
         {
             // Create job based on id passed into controller
-            var job = await _context.Jobs.FindAsync(id);
+            Job job = _context.Jobs.Find(id);
 
             // Remove job from database and saves changes
             _context.Jobs.Remove(job);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
             // Stores action name in tempdata to customize success vew
             TempData["action"] = "delete";
@@ -278,7 +278,7 @@ namespace FinalProject.Controllers
         }
 
         // Update view renders a form that displays job data based on id passed to controller where users can change details
-        public async Task<IActionResult> Update(int? id)
+        public IActionResult Update(int? id)
         {
 
             // Validation returning a 404 if no id passed to controller
@@ -288,7 +288,7 @@ namespace FinalProject.Controllers
             }
 
             // Creates job based on passed in id
-            var job = await _context.Jobs.FindAsync(id);
+            Job job = _context.Jobs.Find(id);
 
             // If job is empty after pulling from db return 404
             if (job == null)
@@ -300,7 +300,7 @@ namespace FinalProject.Controllers
 
         // Edit/Update CRUD
         [HttpPost]
-        public async Task<IActionResult> Update(int id, [Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
+        public IActionResult Update(int id, [Bind("Id,Company,Position,Contact,Method,DateOfApplication,Link,FollowUp,CompanySite,Responded,Notes,UserId")] Job job)
         {
             // Validation ensuring the passed in id matches job's Id
             if (id != job.Id)
@@ -314,7 +314,7 @@ namespace FinalProject.Controllers
                 {
                     // Update database with job values that were passed in
                     _context.Jobs.Update(job);
-                    await _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }
 
                 // If the above SaveChanges returns no rows updated we'll throw an exception
