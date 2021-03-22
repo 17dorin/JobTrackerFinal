@@ -8,7 +8,7 @@
     string receiver = TempData["receiver"].ToString();
 }
 
-<h4>Conversation with @receiver :</h4>
+<h4>Conversation with <a asp-controller="Users" asp-action="UserProfileResult" asp-route-userId="@receiverId">@receiver</a>:</h4>
 
 <div style="margin-right:200px; margin-left:100px">
     @foreach (Chat c in Model)
