@@ -1,7 +1,7 @@
 ﻿@using System.Security.Claims;
 @model ProfileViewModel
 
-@if(TempData.Peek("UserError") != null)
+@if (TempData.Peek("UserError") != null)
 {
     <h3 style="color: red">@TempData["UserError"]</h3>
 }
@@ -74,4 +74,8 @@ else
     <br />
 }
 
-<a asp-controller="SavedUsers" asp-action="SaveUser" asp-route-userId="@Model.UserId">Save user</a>
+@if (User.HasClaim("Account", "Employer"))
+{
+    <a asp-controller="SavedUsers" asp-action="SaveUser" asp-route-userId="@Model.UserId">Save user</a>
+}
+

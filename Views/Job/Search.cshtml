@@ -16,20 +16,24 @@ else
         <p>Company: @TextHelper.RemoveHTML(r.company.display_name)</p>
         <p>Title: <a href="@r.redirect_url">@TextHelper.RemoveHTML(r.title)</a></p>
         <p>Description: @TextHelper.RemoveHTML(r.description)</p>
-        <a asp-controller="Job" asp-action="AddFromSearch" asp-route-id="@r.id">Add to saved jobs</a>
+        @if (User.HasClaim("Account", "JobSeeker"))
+        {
+            <a asp-controller="Job" asp-action="AddFromSearch" asp-route-id="@r.id">Add to saved jobs</a>
+        }
+
     }
     <br />
-    
-        string country = TempData.Peek("country").ToString();
-        int page = int.Parse(TempData.Peek("page").ToString());
-        string what = TempData.Peek("what").ToString();
-        string where = TempData.Peek("where").ToString();
 
-        if (page != 1)
-        {
-            <a asp-controller="Job" asp-action="Search" asp-route-page="@(page - 1)" asp-route-country="@country" asp-route-what="@what" asp-route-where="@where">[Previous]</a>
-        }
-        <a asp-controller="Job" asp-action="Search" asp-route-page="@(page + 1)" asp-route-country="@country" asp-route-what="@what" asp-route-where="@where">[Next]</a>
+    string country = TempData.Peek("country").ToString();
+    int page = int.Parse(TempData.Peek("page").ToString());
+    string what = TempData.Peek("what").ToString();
+    string where = TempData.Peek("where").ToString();
 
-    
+    if (page != 1)
+    {
+        <a asp-controller="Job" asp-action="Search" asp-route-page="@(page - 1)" asp-route-country="@country" asp-route-what="@what" asp-route-where="@where">[Previous]</a>
+    }
+    <a asp-controller="Job" asp-action="Search" asp-route-page="@(page + 1)" asp-route-country="@country" asp-route-what="@what" asp-route-where="@where">[Next]</a>
+
+
 }
