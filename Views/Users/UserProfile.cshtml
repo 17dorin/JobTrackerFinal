@@ -1,6 +1,11 @@
 ﻿@using System.Security.Claims;
 @model ProfileViewModel
 
+@if(TempData.Peek("UserError") != null)
+{
+    <h3 style="color: red">@TempData["UserError"]</h3>
+}
+
 @if (Model.UserName != null)
 {
     <p>Name: @Model.UserName</p>
@@ -68,3 +73,5 @@ else
     <a asp-action="Chat" asp-controller="Chat" asp-route-receiverId="@Model.UserId">Send Message</a>
     <br />
 }
+
+<a asp-controller="SavedUsers" asp-action="SaveUser" asp-route-userId="@Model.UserId">Save user</a>

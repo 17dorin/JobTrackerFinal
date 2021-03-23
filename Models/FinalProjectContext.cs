@@ -26,6 +26,7 @@ namespace FinalProject.Models
         public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
         public virtual DbSet<Chat> Chats { get; set; }
         public virtual DbSet<Job> Jobs { get; set; }
+        public virtual DbSet<SavedUser> SavedUsers { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<UserSkill> UserSkills { get; set; }
 
@@ -184,6 +185,13 @@ namespace FinalProject.Models
                     .WithMany(p => p.Jobs)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK__Jobs__UserId__75A278F5");
+            });
+
+            modelBuilder.Entity<SavedUser>(entity =>
+            {
+                entity.Property(e => e.Employer).HasMaxLength(450);
+
+                entity.Property(e => e.JobSeeker).HasMaxLength(450);
             });
 
             modelBuilder.Entity<Skill>(entity =>

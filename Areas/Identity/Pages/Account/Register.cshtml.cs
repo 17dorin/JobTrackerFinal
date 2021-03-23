@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 
@@ -62,6 +63,12 @@ namespace FinalProject.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Are you an employer?")]
+            
+            public bool IsEmployer { get; set; }
+
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -76,12 +83,20 @@ namespace FinalProject.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
+                var user = new IdentityUser { UserName = Input.Email, Email = Input.Email};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
+                    if(Input.IsEmployer)
+                    {
+                        await _userManager.AddClaimAsync(user, new Claim("Account", "Employer"));
+                    }
+                    else
+                    {
+                        await _userManager.AddClaimAsync(user, new Claim("Account", "JobSeeker"));
+                    }
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

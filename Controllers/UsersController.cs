@@ -13,6 +13,7 @@ namespace FinalProject.Controllers
     public class UsersController : Controller
     {
         private readonly FinalProjectContext _context;
+
         public UsersController(FinalProjectContext context)
         {
             _context = context;
@@ -81,18 +82,6 @@ namespace FinalProject.Controllers
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
         public IActionResult SearchUsersName()
         {
             AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
@@ -130,25 +119,6 @@ namespace FinalProject.Controllers
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //Displays information about the user
         public IActionResult UserProfile()
         {
@@ -185,7 +155,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         public IActionResult EditUserProfile(AspNetUser a, bool IsPrivate)
         {
-            a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             if (ModelState.IsValid)
             {
@@ -225,14 +194,37 @@ namespace FinalProject.Controllers
                 if (IsEmployer == false)
                 {
                     a.IsEmployer = false;
+                    AspNetUserClaim jobSeeker = new AspNetUserClaim();
+                    jobSeeker.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    jobSeeker.ClaimType = "Account";
+                    jobSeeker.ClaimValue = "JobSeeker";
+
+                    _context.AspNetUserClaims.Add(jobSeeker);
+                    _context.SaveChanges();
                 }
                 else if (IsEmployer == true)
                 {
                     a.IsEmployer = true;
+
+                    //AspNetUserClaim employer = new AspNetUserClaim();
+                    //employer.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    //employer.ClaimType = "Account";
+                    //employer.ClaimValue = "Employer";
+
+                    //_context.AspNetUserClaims.Add(employer);
+                    //_context.SaveChanges();
                 }
                 else
                 {
                     a.IsEmployer = false;
+
+                    AspNetUserClaim jobSeeker = new AspNetUserClaim();
+                    jobSeeker.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                    jobSeeker.ClaimType = "Account";
+                    jobSeeker.ClaimValue = "JobSeeker";
+
+                    _context.AspNetUserClaims.Add(jobSeeker);
+                    _context.SaveChanges();
                     return View();
                 }
 

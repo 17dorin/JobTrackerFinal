@@ -28,19 +28,29 @@
                                 <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Skills">Your Skills</a></li>
                             </ul>
                         </li>
-                        <li class="dropdown">
-                            <a class="nav-link text-dark dropdown-toggle" role="button" aria-expanded="false" href="#" data-toggle="dropdown">Tracker<span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Job" asp-action="Index">View Jobs</a></li>
-                                <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Job" asp-action="Add">Add Job</a></li>
-                            </ul>
-                        </li>
+                        @if (User.HasClaim("Account", "JobSeeker"))
+                        {
+                            <li class="dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" role="button" aria-expanded="false" href="#" data-toggle="dropdown">Tracker<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Job" asp-action="Index">View Jobs</a></li>
+                                    <li class="nav-item"><a class="nav-link text-dark" asp-area="" asp-controller="Job" asp-action="Add">Add Job</a></li>
+                                </ul>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="SearchUsers">Search Users</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Chat" asp-action="YourConversations">Messages</a>
                         </li>
+                        @if (User.HasClaim("Account", "Employer"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="SavedUsers" asp-action="Index">Saved Users</a>
+                            </li>
+                        }
+
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
