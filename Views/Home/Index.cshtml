@@ -20,4 +20,7 @@
     <input type="submit" />
 </form>
 
-<a asp-controller="Job" asp-action="SearchRecommended">Find recommended jobs</a>
+@if (User.HasClaim("Account", "JobSeeker"))
+{
+    <a asp-controller="Job" asp-action="SearchRecommended">Find recommended jobs</a>
+}

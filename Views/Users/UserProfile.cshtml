@@ -74,7 +74,7 @@ else
     <br />
 }
 
-@if (User.HasClaim("Account", "Employer"))
+@if (User.HasClaim("Account", "Employer") && Model.UserId != User.FindFirst(ClaimTypes.NameIdentifier).Value)
 {
     <a asp-controller="SavedUsers" asp-action="SaveUser" asp-route-userId="@Model.UserId">Save user</a>
 }
