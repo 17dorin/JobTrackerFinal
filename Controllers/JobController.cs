@@ -29,7 +29,12 @@ namespace FinalProject.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            return View(_context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList());
+            var listViewModel = new ListViewModel();
+            listViewModel.AllJobs = _context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList();
+            listViewModel.NeedsResponse = listViewModel.AllJobs.Where(x => x.Responded == false).ToList();
+            listViewModel.PastFollowUp = listViewModel.NeedsResponse.Where(x => x.FollowUp <= DateTime.Now.AddDays(-1)).ToList();
+
+            return View(listViewModel);
         }
 
         public IActionResult Search(string country, string what, string where, int page = 1)
