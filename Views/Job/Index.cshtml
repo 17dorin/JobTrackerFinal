@@ -1,4 +1,4 @@
-﻿@model List<Job>
+﻿@model ListViewModel
 
 @{
     ViewData["Title"] = "Job Tracker";
@@ -6,31 +6,23 @@
 
 <h3>Welcome to the Job Tracker!</h3>
 
-@if (Model.Count == 0)
+
+@if (Model.AllJobs.Count() == 0)
 {
     <p>
-        The purpose of this page is to list and provide details on jobs you've added to your favorites via the <a href="Home/">job search page</a>, or ones that you've manually entered via the <a href="Job/Add">job add page.</a>
-        Once you've added jobs to your job search tracker, this page will populate with the details for each job.
+        You do not currently have any saved jobs. This page is where you'll be able to view your saved job list along with their details. You can add jobs to this list by saving jobs while
+        your searching for jobs via the <a href="Home/">job search page</a>, or ones that you've manually entered via the <a href="Job/Add">job add page.</a>
     </p>
-
 }
 else
 {
-    <p>
-        Jobs that you save from your job searches will be saved here.
-    </p>
-
-    <p>
-        Jobs can also be manually added via the <a href="Job/Add">add job page.</a>
-    </p>
-
     <button type="button" data-hc-control="parentContent0" class="collapsible">
-        Jobs Needing Follow Up
+        Jobs Without a Response
     </button>
     <div data-hc-content="parentContent0" class="content">
-        @foreach (Job j in Model)
+        @if (Model.NeedsResponse.Count() > 0)
         {
-            if (j.Responded == false && j.FollowUp <= DateTime.Now.AddDays(-1))
+            @foreach (Job j in Model.NeedsResponse)
             {
                 <button type="button" data-hc-control="@("childContent0" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
                 <div data-hc-content="@("childContent0" + j.Id)" class="content">
@@ -96,15 +88,19 @@ else
                 </div>
             }
         }
+        else
+        {
+            <p align="center">No jobs to display!</p>
+        }
     </div>
 
     <button type="button" data-hc-control="parentContent1" class="collapsible">
-        Jobs Without a Response
+        Jobs Requiring Followup
     </button>
     <div data-hc-content="parentContent1" class="content">
-        @foreach (Job j in Model)
+        @if (Model.PastFollowUp.Count() > 0)
         {
-            if (j.Responded == false)
+            foreach (Job j in Model.PastFollowUp)
             {
                 <button type="button" data-hc-control="@("childContent1" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
                 <div data-hc-content="@("childContent1" + j.Id)" class="content">
@@ -170,15 +166,17 @@ else
                 </div>
             }
         }
+        else
+        {
+            <p align="center">No jobs to display!</p>
+        }
     </div>
-
-
 
     <button type="button" data-hc-control="parentContent2" class="collapsible">
         All Jobs
     </button>
     <div data-hc-content="parentContent2" class="content">
-        @foreach (Job j in Model)
+        @foreach (Job j in Model.AllJobs)
         {
             <button type="button" data-hc-control="@("childContent2" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
             <div data-hc-content="@("childContent2" + j.Id)" class="content">
@@ -239,7 +237,7 @@ else
                     </dd>
                 </dl>
                 <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
-                <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a> |
+                <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a>
                 <br />
             </div>
         }
