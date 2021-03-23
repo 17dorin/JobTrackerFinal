@@ -185,7 +185,6 @@ namespace FinalProject.Controllers
         [HttpPost]
         public IActionResult EditUserProfile(AspNetUser a, bool IsPrivate)
         {
-            a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
             if (ModelState.IsValid)
             {
