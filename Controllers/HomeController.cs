@@ -19,17 +19,9 @@ namespace FinalProject.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index() 
         {
-            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            if(a.IsEmployer == null)
-            {
-                return RedirectToAction("EmployerCheck", "Users");
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
 
         public IActionResult Privacy()

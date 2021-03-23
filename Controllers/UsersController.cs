@@ -28,20 +28,12 @@ namespace FinalProject.Controllers
         {
             AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (a.IsEmployer == true)
-            {
-                List<Skill> skills = _context.Skills.ToList();
 
-               return View(skills);
-            }
-            else if (a.IsEmployer == false)
-            {
-                return View("SearchUsersName");
-            }
-            else
-            {
-                return RedirectToAction("EmployerCheck");
-            }
+            List<Skill> skills = _context.Skills.ToList();
+
+            return View(skills);
+
+
         }
         [HttpPost]
         //Displays a list of all users that match the skills searched by
@@ -49,61 +41,42 @@ namespace FinalProject.Controllers
         {
             AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (a.IsEmployer == true)
-            {
-                //Gets all unique userIds that are paired with any of the passed skillIds in our UserSkills table
-                List<string> matchingUserIds = _context.UserSkills.Where(x => skillId.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
-                //Gets all matching users based off of userIds
-                List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id) && (x.IsPrivate == false) && (x.IsEmployer == false)).ToList();
+                         //Gets all unique userIds that are paired with any of the passed skillIds in our UserSkills table
+            List<string> matchingUserIds = _context.UserSkills.Where(x => skillId.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
+            //Gets all matching users based off of userIds
+            List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id) && (x.IsPrivate == false)).ToList();
 
-                List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
-                //Makes a View Model for each AspNetUser that matched
-                foreach (AspNetUser u in matchingUsers)
-                {
-                    //Gets the IDs of the skills the user has
-                    List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == u.Id).Select(x => x.SkillId).ToList();
-                    //Gets a list of skills based off of those IDs
-                    List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
-                    //Constructs model, consisting of the list of skills and non-sensitive information from our AspNetUsers table
-                    ProfileViewModel p = new ProfileViewModel(u, skills);
-                    //Add to results list
-                    profileResults.Add(p);
-                }
-                return View("SearchUsersResults", profileResults);
-            }
-            else if (a.IsEmployer == false)
+            List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
+            //Makes a View Model for each AspNetUser that matched
+            foreach (AspNetUser u in matchingUsers)
             {
-                return RedirectToAction("SearchUsersName");
+                //Gets the IDs of the skills the user has
+                List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == u.Id).Select(x => x.SkillId).ToList();
+                //Gets a list of skills based off of those IDs
+                List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
+                //Constructs model, consisting of the list of skills and non-sensitive information from our AspNetUsers table
+                ProfileViewModel p = new ProfileViewModel(u, skills);
+                //Add to results list
+                profileResults.Add(p);
             }
-            else 
-            {
-                return RedirectToAction("EmployerCheck");
-            }
-
+            return View("SearchUsersResults", profileResults);
         }
 
         public IActionResult SearchUsersName()
         {
+
             AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (a.IsEmployer != null)
-            {
-                return View("SearchUsersName");
-            }
-            else
-            {
-                return View("EmployerCheck");
-            }
+            return View("SearchUsersName");
         }
         [HttpPost]
         public IActionResult SearchUsersName(string searchedName)
         {
             AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (a.IsEmployer != null)
-            {
+
                 List<AspNetUser> MatchingUserName = _context.AspNetUsers.Where(x => x.UserName.Contains((string)searchedName)).ToList();
-                List<AspNetUser> matchingUsers = MatchingUserName.Where(x => x.IsPrivate == false && x.IsEmployer == false).ToList();
+                List<AspNetUser> matchingUsers = MatchingUserName.Where(x => x.IsPrivate == false ).ToList();
 
                 List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
                 foreach (AspNetUser u in matchingUsers)
@@ -112,11 +85,8 @@ namespace FinalProject.Controllers
                     profileResults.Add(p);
                 }
                 return View("SearchUsersResults", profileResults);
-            }
-            else
-            {
-                return RedirectToAction("EmployerCheck");
-            }
+            
+
         }
 
         //Displays information about the user
@@ -171,7 +141,7 @@ namespace FinalProject.Controllers
                 _context.AspNetUsers.Update(a);
                 _context.SaveChanges();
             }
-            if (a.IsEmployer == false && a.UserSkills.Count <= 0)
+            if (a.UserSkills.Count <= 0)
             {
                 return RedirectToAction("Skills");
             }
@@ -180,67 +150,13 @@ namespace FinalProject.Controllers
                 return RedirectToAction("SearchUsers");
             }
         }
-        public IActionResult EmployerCheck()
-        {
-            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            return View(a);
-        }
-        [HttpPost]
-        public IActionResult EmployerCheck(AspNetUser a, bool IsEmployer)
-        {
 
-            if (ModelState.IsValid)
-            {
-                if (IsEmployer == false)
-                {
-                    a.IsEmployer = false;
-                    AspNetUserClaim jobSeeker = new AspNetUserClaim();
-                    jobSeeker.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    jobSeeker.ClaimType = "Account";
-                    jobSeeker.ClaimValue = "JobSeeker";
-
-                    _context.AspNetUserClaims.Add(jobSeeker);
-                    _context.SaveChanges();
-                }
-                else if (IsEmployer == true)
-                {
-                    a.IsEmployer = true;
-
-                    //AspNetUserClaim employer = new AspNetUserClaim();
-                    //employer.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    //employer.ClaimType = "Account";
-                    //employer.ClaimValue = "Employer";
-
-                    //_context.AspNetUserClaims.Add(employer);
-                    //_context.SaveChanges();
-                }
-                else
-                {
-                    a.IsEmployer = false;
-
-                    AspNetUserClaim jobSeeker = new AspNetUserClaim();
-                    jobSeeker.UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-                    jobSeeker.ClaimType = "Account";
-                    jobSeeker.ClaimValue = "JobSeeker";
-
-                    _context.AspNetUserClaims.Add(jobSeeker);
-                    _context.SaveChanges();
-                    return View();
-                }
-
-                _context.AspNetUsers.Update(a);
-                _context.SaveChanges();
-            }
-            return RedirectToAction("EditUserProfile");
-        }
-        // Returns View : Routes a List of Skills into the list
         public IActionResult Skills()
         {
             AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 
-            if (a.IsEmployer != true)
-            {
+
                 // Obtain all skills current user already has/checked from UserSkills table
                 List<UserSkill> existingSkills = _context.UserSkills
                     .Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
@@ -265,11 +181,7 @@ namespace FinalProject.Controllers
                 // List of skills for checklist labels and values of View
                 skills = _context.Skills.Where(x => x.Vote >= 5).ToList();
                 return View(skills);
-            }
-            else
-            {
-                return RedirectToAction("UserProfile");
-            }
+
 
         }
 
