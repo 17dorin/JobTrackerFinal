@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +15,9 @@ namespace FinalProject.Models
         public string Biography { get; set; }
         public string GitHub { get; set; }
         public string LinkedIn { get; set; }
+        [Required]
         public bool? IsEmployer { get; set; }
-        public bool? IsPrivate { get; set; } 
+        public bool? IsPrivate { get; set; }
 
         public string UserName { get; set; }
 
@@ -25,6 +27,20 @@ namespace FinalProject.Models
         {
             this.UserId = user.Id;
             this.skills = skills;
+            this.Email = user.Email;
+            this.PhoneNumber = user.PhoneNumber;
+            this.Location = user.Location;
+            this.Biography = user.Biography;
+            this.GitHub = user.GitHub;
+            this.LinkedIn = user.LinkedIn;
+            this.IsEmployer = user.IsEmployer;
+            this.IsPrivate = user.IsPrivate;
+            this.UserName = user.UserName;
+        }
+        public ProfileViewModel(AspNetUser user)
+        {
+            this.UserId = user.Id;
+            //this.skills = skills;
             this.Email = user.Email;
             this.PhoneNumber = user.PhoneNumber;
             this.Location = user.Location;
