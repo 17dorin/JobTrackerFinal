@@ -1,8 +1,9 @@
 ﻿@model List<ProfileViewModel>
 
-<form name="SearchUsersName" asp-controller="Users" asp-action="SearchUsersName" method="post" placeholder="Search by UserName">
-
-    <input type="text" name="searchedName" />
+<form name="SearchUsersName" asp-controller="Users" asp-action="SearchUsersName" method="post">
+    <h4>Search by username</h4>
+    <br />
+    <input type="text" name="searchedName"  placeholder="Search by UserName" />
 
     <input type="submit" />
 </form>
