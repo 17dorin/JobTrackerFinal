@@ -1,19 +1,18 @@
 ﻿@model AspNetUser
 
 
-
+<h3>Account Type</h3>
 <form method="post" asp-controller="Users" asp-action="EmployerCheck">
 
     @if (Model.IsEmployer == null)
     {
-    <label>Are you an Employer or a Job Seeker? (Account type cannot be changed)</label>
-    <br />
+        <label>Are you an Employer or a Job Seeker? (Account type cannot be changed)</label>
+        <br />
         <input id="Job Seeker" type="radio" name="IsEmployer" value="false" />
         <label for="Job Seeker">Job Seeker</label>
         <br />
         <input id="Employer" type="radio" name="IsEmployer" value="true" />
         <label for="Employer">Employer</label>
-
         <br />
         <br />
     }
@@ -37,11 +36,9 @@
     @Html.HiddenFor(x => x.GitHub)
     @Html.HiddenFor(x => x.Biography)
     @Html.HiddenFor(x => x.PhoneNumber)
-
+    @Html.HiddenFor(x => x.IsPrivate)
 
 
     <input type="submit" value="Save Changes" />
-
-
 </form>
 

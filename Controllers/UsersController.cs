@@ -31,16 +31,20 @@ namespace FinalProject.Controllers
             {
                 List<Skill> skills = _context.Skills.ToList();
 
-                return View(skills);
+               return View(skills);
+            }
+            else if (a.IsEmployer == false)
+            {
+                return View("SearchUsersName");
             }
             else
             {
-                return RedirectToAction("UserProfile");
+                return RedirectToAction("EmployerCheck");
             }
         }
         [HttpPost]
         //Displays a list of all users that match the skills searched by
-        public IActionResult SearchUsers(List<int> skillId)
+        public IActionResult SearchUsers(List<int> skillId, string searchedName)
         {
             AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
@@ -48,28 +52,6 @@ namespace FinalProject.Controllers
             {
                 //Gets all unique userIds that are paired with any of the passed skillIds in our UserSkills table
                 List<string> matchingUserIds = _context.UserSkills.Where(x => skillId.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
-                //Gets all matching users based off of userIds
-                List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id)&&(x.IsPrivate == false)&&(x.IsEmployer==false)).ToList();
-
-                List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
-                //Makes a View Model for each AspNetUser that matched
-                foreach (AspNetUser u in matchingUsers)
-                {
-                    //Gets the IDs of the skills the user has
-                    List<int?> userSkills = _context.UserSkills.Where(x => x.UserId == u.Id).Select(x => x.SkillId).ToList();
-                    //Gets a list of skills based off of those IDs
-                    List<Skill> skills = _context.Skills.Where(x => userSkills.Contains(x.Id)).ToList();
-                    //Constructs model, consisting of the list of skills and non-sensitive information from our AspNetUsers table
-                    ProfileViewModel p = new ProfileViewModel(u, skills);
-                    //Add to results list
-                    profileResults.Add(p);
-                }
-                return View("SearchUsersResults", profileResults);
-            }
-            else
-            {
-                //Gets all unique userIds that are paired with any of the passed skillIds in our UserSkills table
-                List<string> matchingUserIds = _context.AspNetUsers.Where(x => skillId.Contains((int)x.SkillId)).Select(x => x.UserId).Distinct().ToList();
                 //Gets all matching users based off of userIds
                 List<AspNetUser> matchingUsers = _context.AspNetUsers.Where(x => matchingUserIds.Contains(x.Id) && (x.IsPrivate == false) && (x.IsEmployer == false)).ToList();
 
@@ -86,9 +68,86 @@ namespace FinalProject.Controllers
                     //Add to results list
                     profileResults.Add(p);
                 }
-                return View("SearchUserResults", profileResults);
+                return View("SearchUsersResults", profileResults);
+            }
+            else if (a.IsEmployer == false)
+            {
+                return RedirectToAction("SearchUsersName");
+            }
+            else 
+            {
+                return RedirectToAction("EmployerCheck");
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public IActionResult SearchUsersName()
+        {
+            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (a.IsEmployer != null)
+            {
+                return View("SearchUsersName");
+            }
+            else
+            {
+                return View("EmployerCheck");
             }
         }
+        [HttpPost]
+        public IActionResult SearchUsersName(string searchedName)
+        {
+            AspNetUser a = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (a.IsEmployer != null)
+            {
+                List<AspNetUser> MatchingUserName = _context.AspNetUsers.Where(x => x.UserName.Contains((string)searchedName)).ToList();
+                List<AspNetUser> matchingUsers = MatchingUserName.Where(x => x.IsPrivate == false && x.IsEmployer == false).ToList();
+
+                List<ProfileViewModel> profileResults = new List<ProfileViewModel>();
+                foreach (AspNetUser u in matchingUsers)
+                {
+                    ProfileViewModel p = new ProfileViewModel(u);
+                    profileResults.Add(p);
+                }
+                return View("SearchUsersResults", profileResults);
+            }
+            else
+            {
+                return RedirectToAction("EmployerCheck");
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //Displays information about the user
         public IActionResult UserProfile()
@@ -167,10 +226,16 @@ namespace FinalProject.Controllers
                 {
                     a.IsEmployer = false;
                 }
-                else
+                else if (IsEmployer == true)
                 {
                     a.IsEmployer = true;
                 }
+                else
+                {
+                    a.IsEmployer = false;
+                    return View();
+                }
+
                 _context.AspNetUsers.Update(a);
                 _context.SaveChanges();
             }

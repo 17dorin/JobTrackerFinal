@@ -37,5 +37,19 @@ namespace FinalProject.Models
             this.IsPrivate = user.IsPrivate;
             this.UserName = user.UserName;
         }
+        public ProfileViewModel(AspNetUser user)
+        {
+            this.UserId = user.Id;
+            //this.skills = skills;
+            this.Email = user.Email;
+            this.PhoneNumber = user.PhoneNumber;
+            this.Location = user.Location;
+            this.Biography = user.Biography;
+            this.GitHub = user.GitHub;
+            this.LinkedIn = user.LinkedIn;
+            this.IsEmployer = user.IsEmployer;
+            this.IsPrivate = user.IsPrivate;
+            this.UserName = user.UserName;
+        }
     }
 }
