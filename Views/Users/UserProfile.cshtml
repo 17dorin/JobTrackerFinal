@@ -1,21 +1,46 @@
 ﻿@using System.Security.Claims;
 @model ProfileViewModel
 
-@{
-    ViewData["Title"] = "User Profile";
+@if (Model.UserName != null)
+{
+    <p>Name: @Model.UserName</p>
+
+}
+@if (Model.Email != null)
+{
+    <p>Email: @Model.Email</p>
+
+}
+@if (Model.PhoneNumber != null)
+{
+    <p>Phone: @Model.PhoneNumber</p>
+
+}
+@if (Model.Location != null)
+{
+    <p>Location: @Model.Location</p>
+
+}
+@if (Model.Biography != null)
+{
+    <p>Bio: @Model.Biography</p>
+
+}
+@if (Model.GitHub != null)
+{
+    <p>
+        GitHub: <a href="https://www.github.com/@Model.GitHub">@Model.GitHub</a>
+        <br />
+    </p>
+}
+@if (Model.LinkedIn != null)
+{
+    <p>LinkedIn: <a href="https://www.linkedin.com/in/@Model.LinkedIn">@Model.LinkedIn</a></p>
+
 }
 
-<p>Name: @Model.UserName</p>
-<p>Email: @Model.Email</p>
-<p>Phone: @Model.PhoneNumber</p>
-<p>Location: @Model.Location</p>
-<p>Bio: @Model.Biography</p>
-<p>
-    Github: <a href="https://www.github.com/@Model.GitHub">@Model.GitHub</a>
-    <br />
-</p>
 
-<p>LinkedIn: <a href="https://www.linkedin.com/in/@Model.LinkedIn">@Model.LinkedIn</a></p>
+
 <br />
 
 @if (Model.IsEmployer == false)
@@ -23,7 +48,9 @@
     <p>Skills: </p>
     @foreach (Skill s in Model.skills)
     {
-        <p>@s.Skill1</p>
+        <ul>
+            <li>@s.Skill1</li>
+        </ul>
     }
 }
 

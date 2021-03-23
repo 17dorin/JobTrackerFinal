@@ -1,9 +1,4 @@
-﻿@model List<Skill>
-
-@{
-    ViewData["Title"] = "Search Users";
-}
-
+﻿@model List<Skill> 
 <h4>What skills do you want to search for?</h4>
 
 <form name="skillIds" asp-controller="Users" asp-action="SearchUsers" method="post">
@@ -13,5 +8,12 @@
         <label for="@s.Skill1">@s.Skill1</label>
         <br />
     }
+    <input type="submit" />
+</form>
+<br />
+<form name="SearchUsersName" asp-controller="Users" asp-action="SearchUsersName" method="post">
+
+    <input type="text" name="searchedName" placeholder="Search by UserName" />
+
     <input type="submit" />
 </form>
