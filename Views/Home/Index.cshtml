@@ -2,25 +2,28 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Job Search</h1>
+<body class="background-image">
+    <div class="centering">
+        <h1 style="text-align: center; font-family: 'Century Gothic'">Find your perfect-fit job</h1>
+        @*<img src="~/lib/Assets/docusign-8aYqlvrVM_Y-unsplash.jpg" width="800px" height="auto" />*@
+        <form class="search-box" asp-action="Search" asp-controller="Job">
+            <label for="country">Country:</label>
+            <select name="country" id="country">
+                <option value="us">US</option>
+            </select>
 
-<form asp-action="Search" asp-controller="Job">
-    <label for="country">Country:</label>
-    <select name="country" id="country">
-        <option value="us">US</option>
-    </select>
-    <br />
+            @*<label for="what">What kind of job are you looking for? (Example: ".NET Developer" or ".NET, SQL")</label>*@
+            <input type="text" placeholder="What kind of job are you looking for? (.NET, SQL, etc)" style="width: 400px;" name="what" required pattern=".*\S+.*" />
 
-    <label for="what">What kind of job are you looking for? (Example: ".NET Developer" or ".NET, SQL")</label>
-    <input type="text" name="what" required pattern=".*\S+.*" />
-    <br />
+            @*<label for="where">Where do you want a job? (State, County, or City)</label>*@
+            <input type="text" placeholder="Where do you want a job? (State, County, or City)" name="where" style="width: 400px" required pattern=".*\S+.*" />
+            <input type="submit" style="width: 150px;" />
+        </form>
+    </div>
+    @if (User.HasClaim("Account", "JobSeeker"))
+    {
+        <a class="button recommend" asp-controller="Job" asp-action="SearchRecommended">Or find recommended jobs</a>
+    }
 
-    <label for="where">Where do you want a job? (State, County, or City)</label>
-    <input type="text" name="where" required pattern=".*\S+.*" />
-    <input type="submit" />
-</form>
+</body>
 
-@if (User.HasClaim("Account", "JobSeeker"))
-{
-    <a asp-controller="Job" asp-action="SearchRecommended">Find recommended jobs</a>
-}

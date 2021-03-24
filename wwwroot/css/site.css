@@ -7,6 +7,59 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.search-result {
+    background-color: lightgray;
+    border-radius: 10px;
+    padding: 10px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.button {
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+    border-radius: 10px;
+}
+
+.recommend{
+    margin-top: 32%;
+}
+
+.background-text {
+    background-color: #EEEEEE;
+    padding: 2px 6px 2px 6px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border-radius: 10px;
+}
+
+.background-image {
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(255,255,255,0.5)), 
+        url('https://images.unsplash.com/photo-1611095971113-9f7542655338?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1351&q=80');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    align-content: center;
+}
+
+.search-box {
+    background-color: #EEEEEE;
+    padding: 6px 2px 2px 2px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.centering {
+    margin-top: 30%;
+    background-color: #EEEEEE;
+    border-radius: 10px;
+}
 
 /* Style the button that is used to open and close the collapsible content */
 .collapsible {
