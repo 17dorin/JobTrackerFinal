@@ -141,14 +141,8 @@ namespace FinalProject.Controllers
                 _context.AspNetUsers.Update(a);
                 _context.SaveChanges();
             }
-            if (a.UserSkills.Count <= 0)
-            {
-                return RedirectToAction("Skills");
-            }
-            else
-            {
-                return RedirectToAction("SearchUsers");
-            }
+                return RedirectToAction("UserProfile");
+
         }
 
         public IActionResult Skills()

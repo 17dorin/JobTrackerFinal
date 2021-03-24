@@ -33,13 +33,13 @@
     <p>Phone: @Html.EditorFor(x => x.PhoneNumber)</p>
     <br />
 
-    @if (Model.IsEmployer == false)
+    @if (User.HasClaim("Account", "Employer") != true)
     {
         <a href="/Users/Skills">Edit Skills</a>
         <br />
     }
 
-
+    
     @if (Model.IsPrivate == null || Model.IsPrivate == false)
     {
 <label for="IsPrivate">Hide my profile from searches </label>
