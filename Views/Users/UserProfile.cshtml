@@ -43,6 +43,8 @@
     <p>LinkedIn: <a href="https://www.linkedin.com/in/@Model.LinkedIn">@Model.LinkedIn</a></p>
 }
 <br />
+@if (Model.skills != null && Model.skills.Count() > 0)
+{
     <p>Skills: </p>
     @foreach (Skill s in Model.skills)
     {
@@ -50,6 +52,7 @@
             <li>@s.Skill1</li>
         </ul>
     }
+}
 
 
 
