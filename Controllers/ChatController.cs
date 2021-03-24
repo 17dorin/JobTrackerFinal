@@ -4,10 +4,12 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using FinalProject.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.Controllers
 {
+    [Authorize]
     public class ChatController : Controller
     {
         private readonly FinalProjectContext _context;
@@ -75,6 +77,23 @@ namespace FinalProject.Controllers
             List <AspNetUser> conversations = _context.AspNetUsers.Where(x => conversationIds.Contains(x.Id)).ToList();
 
             return View(conversations);
+        }
+
+        public IActionResult Delete(string receiverId)
+        {
+            AspNetUser sender = _context.AspNetUsers.Find(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            AspNetUser receiver = _context.AspNetUsers.Find(receiverId);
+
+            List<Chat> myMessages = _context.Chats.Where(x => x.Sender == User.FindFirst(ClaimTypes.NameIdentifier).Value && x.Receiver == receiverId).ToList();
+            List<Chat> theirMessages = _context.Chats.Where(x => x.Sender == receiverId && x.Receiver == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList();
+            myMessages.AddRange(theirMessages);
+            myMessages = myMessages.OrderBy(x => x.Id).ToList();
+            foreach(Chat c in myMessages)
+            {
+                _context.Chats.Remove(c);
+            }
+            _context.SaveChanges();
+            return RedirectToAction("YourConversations");
         }
     }
 }
