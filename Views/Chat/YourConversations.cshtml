@@ -22,15 +22,29 @@
     }
 </style>
 <table>
-    <tr>
-        <th><h4>Inbox:</h4></th>
-    </tr>
-    @foreach (AspNetUser a in Model)
+    @if (Model.Count > 0)
     {
         <tr>
-            <td><a asp-action="Chat" asp-controller="Chat" asp-route-receiverId="@a.Id">@a.UserName</a></td>
+            <th><h4>Inbox:</h4></th>
+            <th></th>
         </tr>
-        <br />
-        <br />
+        foreach (AspNetUser a in Model)
+        {
+            <tr>
+                <td><a asp-action="Chat" asp-controller="Chat" asp-route-receiverId="@a.Id">@a.UserName</a> </td>
+                <td><a asp-action="Delete" asp-controller="Chat" asp-route-receiverId="@a.Id">X</a></td>
+            </tr>
+            <br />
+            <br />
+        }
+    }
+    else
+    {
+        <tr>
+            <th><h4>Inbox:</h4></th>
+        </tr>
+        <tr>
+            <td>Empty...</td>
+        </tr>
     }
 </table>
