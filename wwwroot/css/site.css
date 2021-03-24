@@ -7,6 +7,11 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+a.divclick{
+    text-decoration: none;
+    color: black;
+}
+
 .search-result {
     background-color: lightgray;
     border-radius: 10px;
@@ -59,6 +64,14 @@ a.navbar-brand {
     margin-top: 30%;
     background-color: #EEEEEE;
     border-radius: 10px;
+}
+.centering2 {
+    margin-top: 10%;
+    background-color: white;
+    border-radius: 10px;
+    padding-left: 50px;
+    padding-top: 25px;
+    padding-bottom: 25px;
 }
 
 /* Style the button that is used to open and close the collapsible content */

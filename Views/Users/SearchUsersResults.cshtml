@@ -6,10 +6,15 @@
 
 @foreach (ProfileViewModel p in Model)
 {
-    <p>UserName: @p.UserName</p>
-    <p>Location: @p.Location</p>
+
+<a class="divclick" asp-controller="Users" asp-action="UserProfileResult" asp-route-userId="@p.UserId">
+    
+    <div class="centering2">
+        <h4>@p.UserName</h4>
+        <p>Location: @p.Location</p>
+    </div>
+</a>
+
+ }
 
 
-    <a asp-controller="Users" asp-action="UserProfileResult" asp-route-userId="@p.UserId">View Profile</a>
-    <p>_______________________________</p>
-}

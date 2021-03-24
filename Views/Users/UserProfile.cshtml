@@ -6,84 +6,85 @@
     <h3 style="color: red">@TempData["UserError"]</h3>
 }
 
-<div>
-    <div class="">
-        @if (Model.UserName != null)
-        {
-            <h4>@Model.UserName</h4>
-        }
-    </div>
-    <div>
-        @if (Model.Email != null)
-        {
-            <p>Email: @Model.Email</p>
-        }
-    </div>
-    <div>
-        @if (Model.PhoneNumber != null)
-        {
-            <p>Phone: @Model.PhoneNumber</p>
-        }
-    </div>
-    <div>
-        @if (Model.Location != null)
-        {
-            <p>Location: @Model.Location</p>
-        }
-    </div>
-    <div>
-        @if (Model.Biography != null)
-        {
-            <p>Bio: @Model.Biography</p>
-        }
-    </div>
-    <div>
-        @if (Model.GitHub != null)
-        {
-            <p>
-                GitHub: <a href="https://www.github.com/@Model.GitHub">@Model.GitHub</a>
-                <br />
-            </p>
-        }
-    </div>
-    <div>
-        @if (Model.LinkedIn != null)
-        {
-            <p>LinkedIn: <a href="https://www.linkedin.com/in/@Model.LinkedIn">@Model.LinkedIn</a></p>
-        }
-    </div>
-    <div>
-        <br />
-        @if (Model.skills != null && Model.skills.Count() > 0)
-        {
-            <p>Skills: </p>
-            @foreach (Skill s in Model.skills)
+<body>
+    <div class="centering2">
+        <div>
+            @if (Model.UserName != null)
             {
-                <ul>
-                    <li>@s.Skill1</li>
-                </ul>
+                <h4>@Model.UserName</h4>
             }
+        </div>
+        <div>
+            @if (Model.Email != null)
+            {
+                <p>Email: @Model.Email</p>
+            }
+        </div>
+        <div>
+            @if (Model.PhoneNumber != null)
+            {
+                <p>Phone: @Model.PhoneNumber</p>
+            }
+        </div>
+        <div>
+            @if (Model.Location != null)
+            {
+                <p>Location: @Model.Location</p>
+            }
+        </div>
+        <div>
+            @if (Model.Biography != null)
+            {
+                <p>Bio: @Model.Biography</p>
+            }
+        </div>
+        <div>
+            @if (Model.GitHub != null)
+            {
+                <p>
+                    GitHub: <a href="https://www.github.com/@Model.GitHub">@Model.GitHub</a>
+                    <br />
+                </p>
+            }
+        </div>
+        <div>
+            @if (Model.LinkedIn != null)
+            {
+                <p>LinkedIn: <a href="https://www.linkedin.com/in/@Model.LinkedIn">@Model.LinkedIn</a></p>
+            }
+        </div>
+        <div>
+            <br />
+            @if (Model.skills != null && Model.skills.Count() > 0)
+            {
+                <p>Skills: </p>
+                @foreach (Skill s in Model.skills)
+                {
+                    <ul>
+                        <li>@s.Skill1</li>
+                    </ul>
+                }
+            }
+        </div>
+    </div>
+</body>
+    <div>
+        @if (Model.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
+        {
+            <br />
+            <a href="/Users/EditUserProfile">Edit Profile</a>
+            <br />
+        }
+        else
+        {
+            <br />
+            <a asp-action="Chat" asp-controller="Chat" asp-route-receiverId="@Model.UserId">Send Message</a>
+            <br />
         }
     </div>
-</div>
-
-<div>
-    @if (Model.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value)
-    {
-        <br />
-        <a href="/Users/EditUserProfile">Edit Profile</a>
-        <br />
-    }
-    else
-    {
-        <br />
-        <a asp-action="Chat" asp-controller="Chat" asp-route-receiverId="@Model.UserId">Send Message</a>
-        <br />
-    }
-</div>
-<div>
-    @if (User.HasClaim("Account", "Employer") && Model.UserId != User.FindFirst(ClaimTypes.NameIdentifier).Value)
-    {
-        <a asp-controller="SavedUsers" asp-action="SaveUser" asp-route-userId="@Model.UserId">Save user</a>
-    }
-</div>
+    <div>
+        @if (User.HasClaim("Account", "Employer") && Model.UserId != User.FindFirst(ClaimTypes.NameIdentifier).Value)
+        {
+            <a asp-controller="SavedUsers" asp-action="SaveUser" asp-route-userId="@Model.UserId">Save user</a>
+        }
+    </div>
