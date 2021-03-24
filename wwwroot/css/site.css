@@ -7,6 +7,39 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.search-result {
+    background-color: lightgray;
+    border-radius: 10px;
+    padding: 10px 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.button {
+    text-decoration: none;
+    background-color: #EEEEEE;
+    color: #333333;
+    padding: 2px 6px 2px 6px;
+    border-top: 1px solid #CCCCCC;
+    border-right: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+    border-left: 1px solid #CCCCCC;
+    border-radius: 10px;
+}
+
+.background-text {
+    background-color: #EEEEEE;
+    padding: 2px 6px 2px 6px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border-radius: 10px;
+}
+
+.search-box{
+    background-color: #EEEEEE;
+    padding: 2px;
+    border-radius: 10px;
+}
 
 /* Style the button that is used to open and close the collapsible content */
 .collapsible {

@@ -4,19 +4,17 @@
 
 <h1>Job Search</h1>
 
-<form asp-action="Search" asp-controller="Job">
+<form class="search-box" asp-action="Search" asp-controller="Job">
     <label for="country">Country:</label>
     <select name="country" id="country">
         <option value="us">US</option>
     </select>
-    <br />
 
-    <label for="what">What kind of job are you looking for? (Example: ".NET Developer" or ".NET, SQL")</label>
-    <input type="text" name="what" required pattern=".*\S+.*" />
-    <br />
+    @*<label for="what">What kind of job are you looking for? (Example: ".NET Developer" or ".NET, SQL")</label>*@
+    <input type="text" placeholder="What kind of job are you looking for? (.NET, SQL, etc)" style="width: 400px;" name="what" required pattern=".*\S+.*" />
 
-    <label for="where">Where do you want a job? (State, County, or City)</label>
-    <input type="text" name="where" required pattern=".*\S+.*" />
+    @*<label for="where">Where do you want a job? (State, County, or City)</label>*@
+    <input type="text" placeholder="Where do you want a job? (State, County, or City)"name="where" style="width: 400px" required pattern=".*\S+.*" />
     <input type="submit" />
 </form>
 
