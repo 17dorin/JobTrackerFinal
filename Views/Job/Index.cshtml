@@ -16,6 +16,7 @@
 }
 else
 {
+    <div class="whole-collapsible">
     <button type="button" data-hc-control="parentContent0" class="collapsible">
         Jobs Without a Response
     </button>
@@ -24,8 +25,10 @@ else
         {
             @foreach (Job j in Model.NeedsResponse)
             {
+                <div class="child-content">
                 <button type="button" data-hc-control="@("childContent0" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
                 <div data-hc-content="@("childContent0" + j.Id)" class="content">
+                    <div class="box">
                     <dl class="flex-xl-row">
                         <dt class="d-flex">
                             @Html.DisplayNameFor(Company => j.Company)
@@ -85,7 +88,9 @@ else
                     <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
                     <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a>
                     <br />
+                        </div>
                 </div>
+                    </div>
             }
         }
         else
@@ -93,6 +98,7 @@ else
             <p align="center">No jobs to display!</p>
         }
     </div>
+        </div>
 
     <button type="button" data-hc-control="parentContent1" class="collapsible">
         Jobs Requiring Followup
