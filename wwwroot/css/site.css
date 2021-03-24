@@ -165,7 +165,7 @@ html {
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
-  background-color: cornsilk;
+  background-image: linear-gradient(180deg, lightblue, white)
 }
 .footer {
   position: absolute;
