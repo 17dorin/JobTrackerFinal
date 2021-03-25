@@ -16,18 +16,104 @@
 }
 else
 {
-    <div class="whole-collapsible">
-    <button type="button" data-hc-control="parentContent0" class="collapsible">
-        Jobs Without a Response
+    <div class="whole-collapsible-0">
+        <button type="button" data-hc-control="parentContent0" class="collapsible" id="setActiveClass-0">
+            Jobs Without a Response
+        </button>
+        <div data-hc-content="parentContent0" class="content">
+            @if (Model.NeedsResponse.Count() > 0)
+            {
+                @foreach (Job j in Model.NeedsResponse)
+                {
+                    <div class="child-content">
+                        <button type="button" data-hc-control="@("childContent0" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
+                        <div data-hc-content="@("childContent0" + j.Id)" class="content">
+                            <div class="box">
+                                <dl class="flex-xl-row">
+                                    <dt class="d-flex">
+                                        @Html.DisplayNameFor(Company => j.Company)
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @Html.DisplayFor(Company => j.Company)
+                                    </dd>
+                                    <dt class="d-flex">
+                                        @Html.DisplayNameFor(Job => j.Position)
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @Html.DisplayFor(Job => j.Position)
+                                    </dd>
+                                    <dt class="d-flex">
+                                        @Html.DisplayNameFor(Job => j.Contact)
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @Html.DisplayFor(Job => j.Contact)
+                                    </dd>
+                                    <dt class="d-flex">
+                                        @Html.Label("Method", "Application method:")
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @Html.DisplayFor(Job => j.Method)
+                                    </dd>
+                                    <dt class="d-flex">
+                                        @Html.Label("DateOfApplication", "Date saved:")
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @Html.DisplayFor(Job => j.DateOfApplication);
+                                    </dd>
+                                    <dt class="d-flex">
+                                        @Html.Label("Link", "Link to job posting:")
+                                    </dt>
+                                    <dd class="d-flex">
+                                        <a href="@Html.DisplayFor(Job => j.Link)">@Html.DisplayFor(Job => j.Link)</a>
+                                    </dd>
+                                    <dt class="d-flex">
+                                        @Html.Label("FollowUp", "Next follow up date:")
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @Html.DisplayFor(Job => j.FollowUp)
+                                    </dd>
+                                    <dt class="d-flex">
+                                        @Html.Label("CompanySite", "Company website:")
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @Html.DisplayFor(Job => j.CompanySite)
+                                    </dd>
+                                    <dt class="d-flex">
+                                        @Html.DisplayNameFor(Job => j.Notes)
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @Html.DisplayFor(Job => j.Notes)
+                                    </dd>
+                                </dl>
+                                <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
+                                <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a>
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="box">
+                    No jobs to display!
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="whole-collapsible-1">
+    <button type="button" data-hc-control="parentContent1" class="collapsible" id="setActiveClass-1">
+        Jobs Requiring Followup
     </button>
-    <div data-hc-content="parentContent0" class="content">
-        @if (Model.NeedsResponse.Count() > 0)
+    <div data-hc-content="parentContent1" class="content">
+        @if (Model.PastFollowUp.Count() > 0)
         {
-            @foreach (Job j in Model.NeedsResponse)
+            foreach (Job j in Model.PastFollowUp)
             {
                 <div class="child-content">
-                <button type="button" data-hc-control="@("childContent0" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
-                <div data-hc-content="@("childContent0" + j.Id)" class="content">
+                <button type="button" data-hc-control="@("childContent1" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
+                <div data-hc-content="@("childContent1" + j.Id)" class="content">
                     <div class="box">
                     <dl class="flex-xl-row">
                         <dt class="d-flex">
@@ -95,97 +181,24 @@ else
         }
         else
         {
-            <p align="center">No jobs to display!</p>
+            <div class="box">
+                No jobs to display!
+            </div>
         }
     </div>
         </div>
 
-    <button type="button" data-hc-control="parentContent1" class="collapsible">
-        Jobs Requiring Followup
-    </button>
-    <div data-hc-content="parentContent1" class="content">
-        @if (Model.PastFollowUp.Count() > 0)
-        {
-            foreach (Job j in Model.PastFollowUp)
-            {
-                <button type="button" data-hc-control="@("childContent1" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
-                <div data-hc-content="@("childContent1" + j.Id)" class="content">
-                    <dl class="flex-xl-row">
-                        <dt class="d-flex">
-                            @Html.DisplayNameFor(Company => j.Company)
-                        </dt>
-                        <dd class="d-flex">
-                            @Html.DisplayFor(Company => j.Company)
-                        </dd>
-                        <dt class="d-flex">
-                            @Html.DisplayNameFor(Job => j.Position)
-                        </dt>
-                        <dd class="d-flex">
-                            @Html.DisplayFor(Job => j.Position)
-                        </dd>
-                        <dt class="d-flex">
-                            @Html.DisplayNameFor(Job => j.Contact)
-                        </dt>
-                        <dd class="d-flex">
-                            @Html.DisplayFor(Job => j.Contact)
-                        </dd>
-                        <dt class="d-flex">
-                            @Html.Label("Method", "Application method:")
-                        </dt>
-                        <dd class="d-flex">
-                            @Html.DisplayFor(Job => j.Method)
-                        </dd>
-                        <dt class="d-flex">
-                            @Html.Label("DateOfApplication", "Date saved:")
-                        </dt>
-                        <dd class="d-flex">
-                            @Html.DisplayFor(Job => j.DateOfApplication);
-                        </dd>
-                        <dt class="d-flex">
-                            @Html.Label("Link", "Link to job posting:")
-                        </dt>
-                        <dd class="d-flex">
-                            <a href="@Html.DisplayFor(Job => j.Link)">@Html.DisplayFor(Job => j.Link)</a>
-                        </dd>
-                        <dt class="d-flex">
-                            @Html.Label("FollowUp", "Next follow up date:")
-                        </dt>
-                        <dd class="d-flex">
-                            @Html.DisplayFor(Job => j.FollowUp)
-                        </dd>
-                        <dt class="d-flex">
-                            @Html.Label("CompanySite", "Company website:")
-                        </dt>
-                        <dd class="d-flex">
-                            @Html.DisplayFor(Job => j.CompanySite)
-                        </dd>
-                        <dt class="d-flex">
-                            @Html.DisplayNameFor(Job => j.Notes)
-                        </dt>
-                        <dd class="d-flex">
-                            @Html.DisplayFor(Job => j.Notes)
-                        </dd>
-                    </dl>
-                    <a asp-action="Update" asp-route-id="@j.Id"><button class="btn btn-primary">Edit</button></a> |
-                    <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a>
-                    <br />
-                </div>
-            }
-        }
-        else
-        {
-            <p align="center">No jobs to display!</p>
-        }
-    </div>
-
-    <button type="button" data-hc-control="parentContent2" class="collapsible">
+    <div class="whole-collapsible-2">
+    <button type="button" data-hc-control="parentContent2" class="collapsible" id="setActiveClass-2">
         All Jobs
     </button>
     <div data-hc-content="parentContent2" class="content">
         @foreach (Job j in Model.AllJobs)
         {
+            <div class="child-content">
             <button type="button" data-hc-control="@("childContent2" + j.Id)" class="collapsible">@j.Company - @j.Position</button>
             <div data-hc-content="@("childContent2" + j.Id)" class="content">
+                <div class="box">
                 <dl class="flex-xl-row">
                     <dt class="d-flex">
                         @Html.DisplayNameFor(Company => j.Company)
@@ -246,6 +259,9 @@ else
                 <a asp-action="Delete" asp-route-id="@j.Id"><button class="btn btn-danger">Delete</button></a>
                 <br />
             </div>
+                </div>
+                </div>
         }
     </div>
+            </div>
 }

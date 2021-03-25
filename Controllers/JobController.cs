@@ -37,45 +37,6 @@ namespace FinalProject.Controllers
             return View(listViewModel);
         }
 
-        public async Task<IActionResult> IndexTable(string sortOrder)
-        {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "companyname_desc" : "";
-            ViewData["DateSortParm"] = sortOrder == "dateadded" ? "dateadded_desc" : "dateadded";
-            ViewData["FollowUpDateSortParm"] = sortOrder == "followupdate" ? "followupdate_desc" : "followupdate";
-            ViewData["RespondedSortParm"] = String.IsNullOrEmpty(sortOrder) ? "responded" : "";
-
-            var allJobs = _context.Jobs.Where(x => x.UserId == User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-            switch (sortOrder)
-            {
-                case "companyname_desc":
-                    allJobs = allJobs.OrderByDescending(x => x.Company);
-                    break;
-                case "dateadded":
-                    allJobs = allJobs.OrderBy(x => x.DateOfApplication);
-                    break;
-                case "dateadded_desc":
-                    allJobs = allJobs.OrderByDescending(x => x.DateOfApplication);
-                    break;
-                case "followupdate":
-                    allJobs = allJobs.OrderBy(x => x.FollowUp);
-                    break;
-                case "followupdate_desc":
-                    allJobs = allJobs.OrderByDescending(x => x.FollowUp);
-                    break;
-                case "responded":
-                    allJobs = allJobs.OrderBy(x => x.Responded);
-                    break;
-                case "responded_desc":
-                    allJobs = allJobs.OrderByDescending(x => x.Responded);
-                    break;
-                default:
-                    allJobs = allJobs.OrderBy(x => x.Company);
-                    break;
-            }
-            return View(await allJobs.AsNoTracking().ToListAsync());
-        }
-
         public IActionResult Search(string country, string what, string where, int page = 1)
         {
             //Encodes any special characters in the search string, then gets data from the API and puts it in a results list
