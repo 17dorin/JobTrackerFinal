@@ -6,5 +6,6 @@
         <p>@p.UserName</p>
         <p>@p.Email</p>
         <a class ="button" asp-controller="Users" asp-action="UserProfileResult" asp-route-userId="@p.UserId">View profile</a>
+        <a class="button" asp-controller="SavedUsers" asp-action="Delete" asp-route-userId="@p.UserId">Remove</a>
     </div>
 }

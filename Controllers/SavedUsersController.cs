@@ -63,5 +63,18 @@ namespace FinalProject.Controllers
 
 
         }
+
+        [Authorize]
+        public IActionResult Delete(string userId)
+        {
+            List<SavedUser> yourUsers = _context.SavedUsers.Where(x => x.Employer == User.FindFirst(ClaimTypes.NameIdentifier).Value).ToList();
+            yourUsers = yourUsers.Where(x => x.JobSeeker == userId).ToList();
+            foreach(SavedUser u in yourUsers)
+            {
+                _context.Remove(u);
+            }
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
