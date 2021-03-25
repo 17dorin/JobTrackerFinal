@@ -80,16 +80,18 @@ else
                                     <dt class="d-flex">
                                         @Html.DisplayNameFor(Job => j.Responded)
                                     </dt>
-                                    <dd class="d-flex">
-                                        @if (j.Responded == false)
-                                        {
-                                            <p>No</p>
-                                        }
-                                        else
-                                        {
-                                            <p>Yes</p>
-                                        }
-                                    </dd>
+                                    @if (j.Responded == false)
+                                    {
+                                        <dd class="d-flex">
+                                            No
+                                        </dd>
+                                    }
+                                    else
+                                    {
+                                        <dd class="d-flex">
+                                            Yes
+                                        </dd>
+                                    }
                                     <dt class="d-flex">
                                         @Html.DisplayNameFor(Job => j.Notes)
                                     </dt>
@@ -179,17 +181,18 @@ else
                                     <dt class="d-flex">
                                         @Html.DisplayNameFor(Job => j.Responded)
                                     </dt>
-                                    <dd class="d-flex">
-                                        @if (j.Responded == false)
-                                        {
-                                            <p>No</p>
-                                        }
-                                        else
-                                        {
-                                            <p>Yes</p>
-                                        }
-
-                                    </dd>
+                                    @if (j.Responded == false)
+                                    {
+                                        <dd class="d-flex">
+                                            No
+                                        </dd>
+                                    }
+                                    else
+                                    {
+                                        <dd class="d-flex">
+                                            Yes
+                                        </dd>
+                                    }
                                     <dd class="d-flex">
                                         @Html.DisplayFor(Job => j.FollowUp)
                                     </dd>
@@ -280,17 +283,18 @@ else
                                 <dt class="d-flex">
                                     @Html.DisplayNameFor(Job => j.Responded)
                                 </dt>
-                                <dd class="d-flex">
-                                    @if (j.Responded == false)
-                                    {
-                                        <p>No</p>
-                                    }
-                                    else
-                                    {
-                                        <p>Yes</p>
-                                    }
-
-                                </dd>
+                                @if (j.Responded == false)
+                                {
+                                    <dd class="d-flex">
+                                        No
+                                    </dd>
+                                }
+                                else
+                                {
+                                    <dd class="d-flex">
+                                        Yes
+                                    </dd>
+                                }
                                 <dt class="d-flex">
                                     @Html.DisplayNameFor(Job => j.Notes)
                                 </dt>
