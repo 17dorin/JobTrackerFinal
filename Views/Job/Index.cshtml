@@ -4,14 +4,13 @@
     ViewData["Title"] = "Job Tracker";
 }
 
-<h3>Welcome to the Job Tracker!</h3>
+<h3 align="center">Saved and Tracked Jobs</h3>
 
 
 @if (Model.AllJobs.Count() == 0)
 {
     <p>
-        You do not currently have any saved jobs. This page is where you'll be able to view your saved job list along with their details. You can add jobs to this list by saving jobs while
-        your searching for jobs via the <a href="Home/">job search page</a>, or ones that you've manually entered via the <a href="Job/Add">job add page.</a>
+        You do not currently have any saved jobs. You can add jobs to this list by saving jobs while your searching for jobs via the <a href="Home/">job search page</a>, or you can manually add a job via the <a href="Job/Add">job add page.</a>
     </p>
 }
 else
@@ -77,6 +76,19 @@ else
                                     </dt>
                                     <dd class="d-flex">
                                         @Html.DisplayFor(Job => j.CompanySite)
+                                    </dd>
+                                    <dt class="d-flex">
+                                        @Html.DisplayNameFor(Job => j.Responded)
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @if (j.Responded == false)
+                                        {
+                                            <p>No</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Yes</p>
+                                        }
                                     </dd>
                                     <dt class="d-flex">
                                         @Html.DisplayNameFor(Job => j.Notes)
@@ -165,6 +177,23 @@ else
                                         @Html.DisplayFor(Job => j.CompanySite)
                                     </dd>
                                     <dt class="d-flex">
+                                        @Html.DisplayNameFor(Job => j.Responded)
+                                    </dt>
+                                    <dd class="d-flex">
+                                        @if (j.Responded == false)
+                                        {
+                                            <p>No</p>
+                                        }
+                                        else
+                                        {
+                                            <p>Yes</p>
+                                        }
+
+                                    </dd>
+                                    <dd class="d-flex">
+                                        @Html.DisplayFor(Job => j.FollowUp)
+                                    </dd>
+                                    <dt class="d-flex">
                                         @Html.DisplayNameFor(Job => j.Notes)
                                     </dt>
                                     <dd class="d-flex">
@@ -247,6 +276,20 @@ else
                                 </dt>
                                 <dd class="d-flex">
                                     @Html.DisplayFor(Job => j.CompanySite)
+                                </dd>
+                                <dt class="d-flex">
+                                    @Html.DisplayNameFor(Job => j.Responded)
+                                </dt>
+                                <dd class="d-flex">
+                                    @if (j.Responded == false)
+                                    {
+                                        <p>No</p>
+                                    }
+                                    else
+                                    {
+                                        <p>Yes</p>
+                                    }
+
                                 </dd>
                                 <dt class="d-flex">
                                     @Html.DisplayNameFor(Job => j.Notes)

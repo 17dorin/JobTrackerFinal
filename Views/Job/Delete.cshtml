@@ -57,10 +57,17 @@
             @Html.DisplayFor(model => model.CompanySite)
         </dd>
         <dt class="d-flex">
-            @Html.DisplayNameFor(model => model.Responded)
+            @Html.DisplayNameFor(model => Model.Responded)
         </dt>
         <dd class="d-flex">
-            @Html.DisplayFor(model => model.Responded)
+            @if (Model.Responded == false)
+            {
+                <p>No</p>
+            }
+            else
+            {
+                <p>Yes</p>
+            }
         </dd>
         <dt class="d-flex">
             @Html.DisplayNameFor(model => model.Notes)
